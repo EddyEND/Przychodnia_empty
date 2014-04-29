@@ -1,0 +1,38 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Szablon.master.cs" Inherits="Szablon" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <title><%: Page.Title %> :: Przychodnia</title>
+    <link href="css/style.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder id="head" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <div id="Navbar">
+            <div id="Navbar-Gora">
+                <div id="Navbar-Logo"><a href="./"></a></div>
+                <div id="Navbar-Kalendarz">
+                    <a href="#">Kalendarz</a>
+                </div>
+                <div id="Navbar-Rejestracja">
+                    <a href="#">Rejestracja</a>
+                </div>
+                <div id="Navbar-Zaloguj">
+                    <a href="#">Zaloguj</a>
+                </div>
+            </div>
+            <div id="Navbar-Dol"></div>
+        </div>
+        <asp:ContentPlaceHolder id="MainContent" runat="server"></asp:ContentPlaceHolder>
+        <footer>
+            <div>&copy; <%: DateTime.Now.Year %> - Projekt przychodnia - Paweł Rajchel & Grzegorz Kustroń</div>
+        </footer>
+    </div>
+    </form>
+</body>
+</html>
+

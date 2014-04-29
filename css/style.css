@@ -1,0 +1,180 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+body {
+	line-height: 1;
+	background-color:#f2f2f2;
+    width: 100%;
+    min-width: 750px;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* ---------- NAVBAR -------------------- */
+#Navbar {
+    background-color: #FFFFFF;
+    height: 125px;
+    z-index: 1;
+    position: relative;
+}
+#Navbar-Gora {
+    margin: 0px 10px;
+    text-align: center;
+}
+#Navbar-Logo {
+    margin-top: 6px;
+    margin-right: 300px;
+    display: inline-block;
+    height: 54px;
+    width: 54px;
+    background: url("../images/logo.gif") no-repeat;
+    background-size: 52px 52px;
+    vertical-align: top;
+}
+#Navbar-Logo > a {
+    display: block;
+    height: 54px;
+    width: 54px;
+}
+#Navbar-Kalendarz, #Navbar-Rejestracja, #Navbar-Zaloguj {
+    color: #07698e;
+    width: 120px;
+    height: 60px;
+    display: inline-block;
+    background-color: #fff;
+    vertical-align: top;
+    text-align: center;
+}
+#Navbar-Dol{
+    height: 65px;
+    background-color: #07698e;
+    border-top: 1px solid #054862;
+    -webkit-box-shadow: 0px 4px 0px 0px rgba(50, 50, 50, 0.45);
+    -moz-box-shadow:    0px 4px 0px 0px rgba(50, 50, 50, 0.45);
+    display: block;
+}
+/* ---------- Koniec NAVBAR ------------- */
+
+/* ----------- TRESC -------------------- */
+#Tresc{
+    height: 400px;
+    background-color: #3e8bcc;
+    z-index: 0;
+    position: relative;
+}
+#Tresc > div {
+    padding: 10px 8px;
+}
+/* ---------- KONIEC TREŒCI ------------- */
+
+/* ---------- INFORMACJE ---------------- */
+#Informacje-Full{
+    background-color:#f2f2f2;
+    padding-top: 10px;
+    display: block;
+}
+#Informacje-Full h2 {
+    margin-bottom: 6px;
+}
+#Informacje-Full p {
+    font-size: 0.6em;
+}
+#Informacje-Full > div {
+    margin: 0px auto;
+    text-align: center;
+}
+.Informacje-Pol {
+    border-radius: 10px;
+    margin: 10px 10px;
+    background-color:#e1dede;
+    width: 320px;
+    min-width: 150px;
+    height: 250px;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+}
+.Informacje-Pol > div{
+    padding: 8px 10px;
+    font-size: 1.6em;
+}
+/* ---------- KONIEC INFORMACJE --------- */
+
+/* ---------- FOOTER -------------------- */
+footer > div {
+    margin: 4px auto;
+    text-align: center;
+    padding: 6px 5px;
+    border-top: 1px solid #DDDDDD;
+    max-width: 1200px;
+}
+/* ---------- KONIEC FOOTER ------------- */
+
+.active a{
+    color: #ffffff !important;
+    background-color: #07698e !important;
+}
+
+/* ---------- LINK ---------------------- */
+#Navbar-Kalendarz a, #Navbar-Rejestracja a, #Navbar-Zaloguj a,
+#Navbar-Kalendarz a:link, #Navbar-Rejestracja a:link, #Navbar-Zaloguj a:link {
+    display: block;
+    width: 120px;
+    height: 50px;
+    font-family:'Angsana New';
+    font-size: 2em;
+    padding-top: 10px;
+    text-decoration: none;
+}
+/* ---------- KONIEC LINK --------------- */
+
+/* ---------- VISITED ------------------- */
+#Navbar-Kalendarz a:visited, #Navbar-Rejestracja a:visited, #Navbar-Zaloguj a:visited {
+    color: #07698e;
+    text-decoration: none;
+}
+/* ---------- KONIEC VISITED ------------ */
+
+/* ---------- HOVER --------------------- */
+#Navbar-Kalendarz a:hover, #Navbar-Rejestracja a:hover, #Navbar-Zaloguj a:hover {
+    background-color: #e2e2e2 !important;
+    color: #07698e !important;
+}
+/* ---------- KONIEC HOVER -------------- */
+
+/* ---------- ACTIVCE ------------------- */
+#Navbar-Kalendarz a:active, #Navbar-Rejestracja a:active, #Navbar-Zaloguj a:active {
+    background-color: #07698e !important;
+    color: #ffffff !important;
+}
+/* ---------- KONIEC ACTIVCE ------------ */
+
