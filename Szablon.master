@@ -15,17 +15,11 @@
         <div id="Navbar">
             <div id="Navbar-Gora">
                 <div id="Navbar-Logo"><a href="./"></a></div>
-                <div id="Navbar-Kalendarz">
-                    <a href="#">Kalendarz</a>
-                </div>
-                <div id="Navbar-Rejestracja">
-                    <a href="#">Rejestracja</a>
-                </div>
-                <div id="Navbar-Zaloguj">
-                    <a href="#">Zaloguj</a>
-                </div>
+                <asp:ContentPlaceHolder id="Navbar" runat="server"></asp:ContentPlaceHolder>
             </div>
-            <div id="Navbar-Dol"></div>
+            <div id="Navbar-Dol">
+                <asp:adrotator runat="server"></asp:adrotator>
+            </div>
         </div>
         <asp:ContentPlaceHolder id="MainContent" runat="server"></asp:ContentPlaceHolder>
         <footer>

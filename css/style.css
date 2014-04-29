@@ -147,6 +147,7 @@ footer > div {
 /* ---------- LINK ---------------------- */
 #Navbar-Kalendarz a, #Navbar-Rejestracja a, #Navbar-Zaloguj a,
 #Navbar-Kalendarz a:link, #Navbar-Rejestracja a:link, #Navbar-Zaloguj a:link {
+    color: #07698e;
     display: block;
     width: 120px;
     height: 50px;
