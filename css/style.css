@@ -46,11 +46,11 @@ table {
     z-index: 1;
     position: relative;
 }
-#Navbar-Gora {
+#NavbarGora {
     margin: 0px 10px;
     text-align: center;
 }
-#Navbar-Logo {
+#NavbarLogo {
     margin-top: 6px;
     margin-right: 300px;
     display: inline-block;
@@ -60,12 +60,12 @@ table {
     background-size: 52px 52px;
     vertical-align: top;
 }
-#Navbar-Logo > a {
+#NavbarLogo > a {
     display: block;
     height: 54px;
     width: 54px;
 }
-#Navbar-Kalendarz, #Navbar-Rejestracja, #Navbar-Zaloguj {
+#NavbarKalendarz, #NavbarRejestracja, #NavbarZaloguj {
     color: #07698e;
     width: 120px;
     height: 60px;
@@ -74,7 +74,7 @@ table {
     vertical-align: top;
     text-align: center;
 }
-#Navbar-Dol{
+#NavbarDol{
     height: 65px;
     background-color: #07698e;
     border-top: 1px solid #054862;
@@ -85,34 +85,42 @@ table {
 /* ---------- Koniec NAVBAR ------------- */
 
 /* ----------- TRESC -------------------- */
-#Tresc{
+#TrescGlowna {
     height: 400px;
     background-color: #3e8bcc;
     z-index: 0;
     position: relative;
 }
+#Tresc {
+    min-height: 100px;
+    background-color: #f2f2f2;
+    z-index: 0;
+    position: relative;
+}
 #Tresc > div {
+    max-width: 1200px;
     padding: 10px 8px;
+    margin: 0px auto;
 }
 /* ---------- KONIEC TREŒCI ------------- */
 
 /* ---------- INFORMACJE ---------------- */
-#Informacje-Full{
-    background-color:#f2f2f2;
+#InformacjeFull{
+    background-color: #f2f2f2;
     padding-top: 10px;
     display: block;
 }
-#Informacje-Full h2 {
+#InformacjeFull h2 {
     margin-bottom: 6px;
 }
-#Informacje-Full p {
+#InformacjeFull p {
     font-size: 0.6em;
 }
-#Informacje-Full > div {
+#InformacjeFull > div {
     margin: 0px auto;
     text-align: center;
 }
-.Informacje-Pol {
+.InformacjePol {
     border-radius: 10px;
     margin: 10px 10px;
     background-color:#e1dede;
@@ -123,7 +131,7 @@ table {
     text-align: left;
     vertical-align: top;
 }
-.Informacje-Pol > div{
+.InformacjePol > div{
     padding: 8px 10px;
     font-size: 1.6em;
 }
@@ -145,8 +153,8 @@ footer > div {
 }
 
 /* ---------- LINK ---------------------- */
-#Navbar-Kalendarz a, #Navbar-Rejestracja a, #Navbar-Zaloguj a,
-#Navbar-Kalendarz a:link, #Navbar-Rejestracja a:link, #Navbar-Zaloguj a:link {
+#NavbarKalendarz a, #NavbarRejestracja a, #NavbarZaloguj a,
+#NavbarKalendarz a:link, #NavbarRejestracja a:link, #NavbarZaloguj a:link {
     color: #07698e;
     display: block;
     width: 120px;
@@ -159,21 +167,21 @@ footer > div {
 /* ---------- KONIEC LINK --------------- */
 
 /* ---------- VISITED ------------------- */
-#Navbar-Kalendarz a:visited, #Navbar-Rejestracja a:visited, #Navbar-Zaloguj a:visited {
+#NavbarKalendarz a:visited, #NavbarRejestracja a:visited, #NavbarZaloguj a:visited {
     color: #07698e;
     text-decoration: none;
 }
 /* ---------- KONIEC VISITED ------------ */
 
 /* ---------- HOVER --------------------- */
-#Navbar-Kalendarz a:hover, #Navbar-Rejestracja a:hover, #Navbar-Zaloguj a:hover {
+#NavbarKalendarz a:hover, #NavbarRejestracja a:hover, #NavbarZaloguj a:hover {
     background-color: #e2e2e2 !important;
     color: #07698e !important;
 }
 /* ---------- KONIEC HOVER -------------- */
 
 /* ---------- ACTIVCE ------------------- */
-#Navbar-Kalendarz a:active, #Navbar-Rejestracja a:active, #Navbar-Zaloguj a:active {
+#NavbarKalendarz a:active, #NavbarRejestracja a:active, #NavbarZaloguj a:active {
     background-color: #07698e !important;
     color: #ffffff !important;
 }

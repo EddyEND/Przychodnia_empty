@@ -13,11 +13,19 @@
     <form id="form1" runat="server">
     <div>
         <div id="Navbar">
-            <div id="Navbar-Gora">
-                <div id="Navbar-Logo"><a href="./"></a></div>
-                <asp:ContentPlaceHolder id="Navbar" runat="server"></asp:ContentPlaceHolder>
+            <div id="NavbarGora">
+                <div id="NavbarLogo"><a href="./"></a></div>
+                <div id="NavbarKalendarz" runat="server">
+                    <a href="./Kalendarz.aspx">Kalendarz</a>
+                </div>
+                <div id="NavbarRejestracja" runat="server">
+                    <a href="./Rejestracja.aspx">Rejestracja</a>
+                </div>
+                <div id="NavbarZaloguj" runat="server">
+                    <a href="./Default.aspx?action=login">Zaloguj</a>
+                </div>
             </div>
-            <div id="Navbar-Dol">
+            <div id="NavbarDol">
                 <asp:adrotator runat="server"></asp:adrotator>
             </div>
         </div>
