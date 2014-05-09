@@ -189,11 +189,12 @@ footer > div {
 }
 /* ---------- KONIEC ACTIVCE ------------ */
 
-/* ---------- REJESTRACJA --------------- */
-#Rejestracja {
+/* ---------- REJESTRACJA/LOGOWANIE------ */
+#Rejestracja, #Logowanie {
     margin: 20px 0px;
 }
-#Rejestracja > div {
+#Rejestracja > div,
+#Logowanie > div {
     width: 750px;
     margin: 0px auto;
     text-align: center;
@@ -205,17 +206,23 @@ footer > div {
     -webkit-box-shadow: 0 1px 3px 1px #ccc;
     box-shadow: 0 1px 3px 1px #ccc;
 }
-#Rejestracja .wiersz {
+#Rejestracja .wiersz,
+#Logowanie .wiersz {
     text-align: left;
-    width: 544px;
+    width: 546px;
     margin: 0px auto
 }
-#Rejestracja .pole {
+#Logowanie .wiersz {
+    text-align: right;
+}
+#Rejestracja .pole,
+#Logowanie .pole {
     text-align: left;
     width: 270px;
     display: inline-block;
 }
-#Rejestracja label {
+#Rejestracja label,
+#Logowanie label {
     width: 250px;
     text-align: left;
     font-size: 16px;
@@ -223,7 +230,8 @@ footer > div {
     padding-left: 2px;
     margin-bottom: 6px;
 }
-#Rejestracja input[type="text"], #Rejestracja input[type="password"] {
+#Rejestracja input[type="text"], #Rejestracja input[type="password"],
+#Logowanie input[type="text"], #Logowanie input[type="password"] {
     width: 250px;
     height: 24px;
     padding: 8px 6px;
@@ -245,14 +253,15 @@ footer > div {
     -o-transition: border linear .2s,box-shadow linear .2s;
     transition: border linear .2s,box-shadow linear .2s;
 }
-#Rejestracja input[type="text"]:focus, #Rejestracja input[type="password"]:focus {
+#Rejestracja input[type="text"]:focus, #Rejestracja input[type="password"]:focus,
+#Logowanie input[type="text"]:focus, #Logowanie input[type="password"]:focus {
     border-color: #029dd3;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(82,168,236,.6);
     -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(82,168,236,.6);
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(82,168,236,.6);
 }
-#Rejestracja input[type="submit"] {
+#Rejestracja input[type="submit"], #Logowanie input[type="submit"] {
     display: inline-block;
     padding: 4px 20px 4px 20px;
     margin-bottom: 0;
@@ -279,7 +288,7 @@ footer > div {
     text-transform: uppercase;
     text-decoration: none;
 }
-/* ---------- KONIEC REJESTRACJA -------- */
+/* ------- KONIEC REJESTRACJA/LOGOWANIE -- */
 
 /* ---------- KLASY --------------------- */
 .naglowek {
