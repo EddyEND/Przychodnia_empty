@@ -4,11 +4,7 @@
 <asp:Content ContentPlaceholderID="MainContent" runat="server">
     <div id="Tresc">
         <div>
-            <div id="Logowanie">
-                <div>
-                    <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
-                </div>
-            </div>
+            <div id="Kalendarz_" runat="server"></div>
         </div>
     </div>
 </asp:Content>

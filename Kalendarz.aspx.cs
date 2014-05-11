@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 public partial class Kalendarz : System.Web.UI.Page
@@ -38,34 +39,36 @@ public partial class Kalendarz : System.Web.UI.Page
 
         // Label1.Text = start.ToString();
 
-        double x = (DateTime.DaysInMonth(rok, miesiac) + start) / 7d;
+        double x = (DateTime.DaysInMonth(rok, miesiac) + start-1) / 7d;
         int tygodni = Convert.ToInt32(Math.Ceiling(x));
         bool off = false;
 
+        HtmlGenericControl div = new HtmlGenericControl("div");
         
         // link prev/next miesiac
-        Label1.Text += "<div>" + plMiesiace[miesiac - 1] + " " + rok + "</div>";
-        Label1.Text += "<div>" + poprzedniMiesiacLink(miesiac, rok) + " " + nastepnyMiesiacLink(miesiac, rok) + "</div>";
+        div.InnerHtml += "<div><div class=\"miesiac\">" + plMiesiace[miesiac - 1] + " " + rok + "</div><div class=\"przelaczniki\">" + poprzedniMiesiacLink(miesiac, rok) + " | " + nastepnyMiesiacLink(miesiac, rok) + "</div></div>";
 
-        Label1.Text += "<table><tr>";
+        div.InnerHtml += "<div id=\"tabela\"><div class=\"wiersz\">";
         for (int j = 0; j < 7; j++) {
-            Label1.Text += "<td>" + plDni[j] + "</td>";
+            div.InnerHtml += "<div class=\"komorka tydzien\">" + plDni[j] + "</div>";
         }
-        Label1.Text += "</tr>";
+        div.InnerHtml += "</div>";
         for (int i = 0; i < tygodni; i++) {
-            Label1.Text += "<tr>";
+            div.InnerHtml += "<div class=\"wiersz\">";
             for (int j = 0; j < 7; j++) {
                 if (j == start-1) off = true;
                 if (off && czas.Month == miesiac){
-                    Label1.Text += "<td>" + czas.Day + "</td>";
+                    div.InnerHtml += "<div class=\"komorka dni\">" + czas.Day + "</div>";
                     czas = czas.AddDays(1);
                 }
-                    else Label1.Text += "<td></td>";
+                else div.InnerHtml += "<div class=\"komorka dni\"></div>";
 
 
             }
-            Label1.Text += "</tr>";
+            div.InnerHtml += "</div>";
         }
-        Label1.Text += "</table>";
+        div.InnerHtml += "</div>";
+
+        Kalendarz_.Controls.Add(div);
     }
 }
