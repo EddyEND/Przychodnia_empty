@@ -98,7 +98,7 @@ table {
     z-index: 0;
     position: relative;
 }
-#Tresc > div {
+#Tresc > div, #TrescGlowna > div {
     max-width: 1200px;
     padding: 10px 8px;
     margin: 0px auto;
@@ -127,7 +127,7 @@ table {
     background-color:#e1dede;
     width: 320px;
     min-width: 150px;
-    height: 250px;
+    min-height: 250px;
     display: inline-block;
     text-align: left;
     vertical-align: top;
@@ -295,6 +295,7 @@ footer > div {
     font-family: Calibri !important;
     font-size: 28px;
     margin-bottom: 16px;
+    text-align: center;
 }
 .infoMale {
     margin-top: 10px;
@@ -309,7 +310,8 @@ footer > div {
     margin-bottom: 8px !important;
     padding: 10px 16px;
     color: #FFFFFF;
-    min-height:20px;
+    min-height: 20px;
+    text-align: left !important;
 }
 .blad ul {
     list-style-type: square;

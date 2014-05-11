@@ -16,11 +16,14 @@ public partial class Szablon : System.Web.UI.MasterPage
             NavbarKalendarz.Attributes["class"] = "active";
         else if (CurrentPage == "Rejestracja.aspx")
             NavbarRejestracja.Attributes["class"] = "active";
+        else if (CurrentPage == "Logowanie.aspx")
+            NavbarZaloguj.Attributes["class"] = "active";
         
         
-        if (Request.QueryString["action"] == "login")
+        if (Session["zalogowany"] != null)
         { // jakis inny warunek, ale tak się będzie zmieniac navbar dla zalogowanego
-            NavbarZaloguj.InnerHtml = "<a href='Default.aspx?action=logout'>Wyloguj</a>";
+            NavbarRejestracja.InnerHtml = "<a href='Wizyta.aspx'>Wizyta</a>";
+            NavbarZaloguj.InnerHtml = "<a href='Wyloguj.aspx'>Wyloguj</a>";
         }
     }
 }
