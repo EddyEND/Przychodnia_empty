@@ -22,7 +22,7 @@
                     <a href="./Rejestracja.aspx">Rejestracja</a>
                 </div>
                 <div id="NavbarZaloguj" runat="server">
-                    <a href="./Logowanie.aspx">Zaloguj</a>
+                    <a href="./Logowanie.aspx">Logowanie</a>
                 </div>
             </div>
             <div id="NavbarDol"></div>

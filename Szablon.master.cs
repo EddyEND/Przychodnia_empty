@@ -25,5 +25,10 @@ public partial class Szablon : System.Web.UI.MasterPage
             NavbarRejestracja.InnerHtml = "<a href='Wizyta.aspx'>Wizyta</a>";
             NavbarZaloguj.InnerHtml = "<a href='Wyloguj.aspx'>Wyloguj</a>";
         }
+
+        if (!IsPostBack && Request.UrlReferrer != null)
+        {
+            Session["PrevPage"] = Request.UrlReferrer.ToString();
+        }
     }
 }

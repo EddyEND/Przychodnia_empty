@@ -1,0 +1,16 @@
+﻿zapamiętaj mnie przy logowaniu - na razie odpuszczam, może później zrobie; timeout sesji na 60 min ustawione
+
+strona przekierowania layout - zrobione, można coś zmienić
+
+rejestracja nowego konta - zrobione
+validacja rejestracji - zrobione
+
+
+
+wydarzenia w kalendarzu
+
+formularz umówienia wizyty
+
+panel uzytkownika
+
+panel admina

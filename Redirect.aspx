@@ -8,7 +8,7 @@
     <title><%: Page.Title %> :: Przychodnia</title>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body id="redir">
     <form id="form1" runat="server">
     <div>
         <div id="redirect" runat="server"></div>

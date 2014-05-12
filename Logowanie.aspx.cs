@@ -5,9 +5,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using MySql.Data.MySqlClient;
 using System.Text;
 using System.Security.Cryptography;
+using MySql.Data.MySqlClient;
 
 public partial class Logowanie : System.Web.UI.Page
 {
@@ -15,6 +15,9 @@ public partial class Logowanie : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         gwiazdka = "<span class=\"gwiazdka\">*</span>";
+
+        if (Session["zalogowany"] != null)
+            Response.Redirect("./", true);
 
         if (Page.IsPostBack)
         { // Validacje
@@ -55,7 +58,8 @@ public partial class Logowanie : System.Web.UI.Page
                         {
                             Session["zalogowany"] = (int)1;
                             Session["nazwa"] = NazwaInput.Value;
-                            Server.Transfer("Redirect.aspx?a=login", true);
+                            // Server.Transfer("Redirect.aspx?a=login", true);
+                            Server.Transfer("Redirect.aspx?a=login&link=" + Session["PrevPage"], true);
                         }
                         else
                         {
