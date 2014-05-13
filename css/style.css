@@ -23,7 +23,7 @@ body {
 	background-color:#f2f2f2;
     width: 100%;
     min-width: 750px;
-    font-family: arial, Helvetica, verdana, sans-serif;
+    font-family: Helvetica, verdana, sans-serif;
 }
 ol, ul {
 	list-style: none;
@@ -76,12 +76,46 @@ table {
     vertical-align: top;
     text-align: center;
 }
-#NavbarDol{
+#NavbarZaloguj.menu {
+    overflow: hidden;
+}
+#NavbarZaloguj.menu > div:last-child {
+    background-color: #ffffff;
+    /*width: 180px;
+    margin-left: -60px;*/
+}
+#NavbarZaloguj.menu > div:last-child a,
+#NavbarZaloguj.menu > div:last-child a:link {
+    width: 112px;
+    min-height: 26px;
+    height: auto;
+    font-size: 16px;
+    padding: 4px;
+    border-top: 1px solid #ddd;
+}
+#NavbarZaloguj.menu > div:last-child,
+#NavbarZaloguj.menu > div:last-child > div:last-child a {
+    -webkit-border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+#NavbarZaloguj.menu:hover {
+    height: auto;
+}
+#NavbarZaloguj.menu:hover > div:last-child {
+    position: absolute;
+}
+#NavbarDol {
     height: 65px;
     background-color: #07698e;
     border-top: 1px solid #054862;
     -webkit-box-shadow: 0px 4px 0px 0px rgba(50, 50, 50, 0.45);
-    -moz-box-shadow:    0px 4px 0px 0px rgba(50, 50, 50, 0.45);
+    -moz-box-shadow: 0px 4px 0px 0px rgba(50, 50, 50, 0.45);
+    box-shadow: 0px 4px 0px 0px rgba(50, 50, 50, 0.45);
     display: block;
 }
 /* ---------- Koniec NAVBAR ------------- */
@@ -162,8 +196,9 @@ footer > div {
     display: block;
     width: 120px;
     height: 50px;
-    font-family:'Angsana New';
-    font-size: 2em;
+    font-family: Cambria;
+    font-size: 1.4em;
+    line-height: 1.6em;
     padding-top: 10px;
     text-decoration: none;
 }

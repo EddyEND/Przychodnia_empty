@@ -57,7 +57,7 @@ public partial class Logowanie : System.Web.UI.Page
                         if (String.Compare(wynik[5].ToString(), hash.ToString(), false) == 0)
                         {
                             Session["zalogowany"] = (int)1;
-                            Session["nazwa"] = NazwaInput.Value;
+                            Session["nazwa"] = wynik[1].ToString();
                             // Server.Transfer("Redirect.aspx?a=login", true);
                             Server.Transfer("Redirect.aspx?a=login&link=" + Session["PrevPage"], true);
                         }

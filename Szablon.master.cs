@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI.HtmlControls;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -21,9 +22,15 @@ public partial class Szablon : System.Web.UI.MasterPage
         
         
         if (Session["zalogowany"] != null)
-        { // jakis inny warunek, ale tak się będzie zmieniac navbar dla zalogowanego
+        {
             NavbarRejestracja.InnerHtml = "<a href='Wizyta.aspx'>Wizyta</a>";
-            NavbarZaloguj.InnerHtml = "<a href='Wyloguj.aspx'>Wyloguj</a>";
+
+            NavbarZaloguj.Attributes.Add("class", "menu");
+            HtmlGenericControl div = new HtmlGenericControl("div");
+            div.InnerHtml += "<div><a href=\"./Panel.aspx\">Panel użytkownika</a></div>";
+            div.InnerHtml += "<div><a href=\"./Wyloguj.aspx\">Wyloguj</a></div>";
+            NavbarZaloguj.InnerHtml = "<div><a href=\"\" onclick=\"javascript: return false;\">" + Session["nazwa"] + "</a></div>"; // dodac jquery i preventdefault
+            NavbarZaloguj.Controls.Add(div);
         }
 
         if (!IsPostBack && Request.UrlReferrer != null)

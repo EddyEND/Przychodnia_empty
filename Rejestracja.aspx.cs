@@ -128,7 +128,7 @@ public partial class Rejestracja : System.Web.UI.Page
 
                 // =================================
             
-                string sql = "INSERT INTO users VALUES (@Id, @Nazwa, @Imie, @Nazwisko, @Email, @Haslo, @DataRejestracji, @Aktywne);";
+                string sql = "INSERT INTO users VALUES (@Id, @Nazwa, @Imie, @Nazwisko, @Email, @Haslo, @DataRejestracji, @Aktywne, @Typ);";
                 MySqlCommand zapytanie = new MySqlCommand(sql, conn);
                 zapytanie.Parameters.Add(new MySqlParameter("@Id", 0));
                 zapytanie.Parameters.Add(new MySqlParameter("@Nazwa", NazwaInput.Value));
@@ -151,6 +151,7 @@ public partial class Rejestracja : System.Web.UI.Page
                 zapytanie.Parameters.Add(new MySqlParameter("@DataRejestracji", elapsedTime.TotalSeconds.ToString()));
 
                 zapytanie.Parameters.Add(new MySqlParameter("@Aktywne", "0"));
+                zapytanie.Parameters.Add(new MySqlParameter("@Typ", "U"));
 
                 int wynik = zapytanie.ExecuteNonQuery();
 
