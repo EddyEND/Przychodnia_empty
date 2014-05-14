@@ -9,7 +9,7 @@
                     <div class="wiersz">
                         <div class="pole"><div class="naglowek">Logowanie</div></div>
                     </div>
-                    <asp:Label runat="server" id="Blad"></asp:Label>
+                    <div runat="server" id="Blad"></div>
                     <div class="wiersz">
                         <div class="pole"><label for="NazwaInput">Nazwa użytkownika: </label><input id="NazwaInput" name="NazwaInput" type="text" runat="server" /></div>
                     </div>

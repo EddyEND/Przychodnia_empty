@@ -7,7 +7,7 @@
             <div id="Rejestracja_" runat="server">
                 <div>
                     <div class="naglowek">Rejestracja nowego użytkownika</div>
-                    <asp:Label runat="server" id="Blad"></asp:Label>
+                    <div runat="server" id="Blad"></div>
                     <div class="wiersz">
                         <div class="pole"><label for="ImieInput">Imię: <span class="gwiazdka">*</span></label><input id="ImieInput" name="ImieInput" type="text" runat="server" /></div>
                         <div class="pole"><label for="NazwiskoInput">Nazwisko: <span class="gwiazdka">*</span></label><input id="NazwiskoInput" name="NazwiskoInput" type="text" runat="server" /></div>

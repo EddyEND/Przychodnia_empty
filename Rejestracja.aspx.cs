@@ -72,15 +72,12 @@ public partial class Rejestracja : System.Web.UI.Page
 
                         bledy.Add("Hasło zawiera niedozwolony znak/i (znak [pozycja]):" + bledyReg); 
                     }
+                    if (HasloInput2.Value == "")
+                        bledy.Add("Brak powtórzenia hasła");
+                    else if (HasloInput.Value != HasloInput2.Value)
+                        bledy.Add("Hasła nie są identyczne");
                 }
             }
-
-            if (HasloInput2.Value == "")
-                bledy.Add("Brak powtórzenia hasła");
-
-            if (HasloInput.Value != "" && (HasloInput2.Value != ""))
-                if (HasloInput.Value != HasloInput2.Value)
-                    bledy.Add("Hasła nie są identyczne");
 
             if (EmailInput.Value == "")
                 bledy.Add("Brak adresu E-mail");
@@ -88,6 +85,11 @@ public partial class Rejestracja : System.Web.UI.Page
                 string emailReg = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
                 Regex reg = new Regex(emailReg);
                 if (!reg.IsMatch(EmailInput.Value)) bledy.Add("Nieprawidłowy adres E-mail");
+
+                else if (EmailInput2.Value == "")
+                    bledy.Add("Brak powtórzenia adresu E-mail");
+                else if (EmailInput.Value != EmailInput2.Value)
+                        bledy.Add("Adresy E-mail nie są identyczne");
                 else
                 {
                     string sql = "SELECT id FROM users WHERE email=@Email;";
@@ -103,15 +105,6 @@ public partial class Rejestracja : System.Web.UI.Page
                 }
             }
 
-            if (EmailInput2.Value == "")
-                bledy.Add("Brak powtórzenia adresu E-mail");
-
-
-            if (EmailInput.Value != "" && (EmailInput2.Value != ""))
-                if (EmailInput.Value != EmailInput2.Value)
-                    bledy.Add("Adresy E-mail nie są identyczne");
-
-
 
             if (bledy.Count > 0)
             {
@@ -121,10 +114,10 @@ public partial class Rejestracja : System.Web.UI.Page
                     bledyHTML += "<li>" + val + "</li>";
                 }
                 bledyHTML += "</ul>";
-                Blad.Text = "<div class=\"wiersz blad\">Formularz zawiera błędy:<br />" + bledyHTML + "</div>";
+                Blad.InnerHtml = "<div class=\"wiersz blad\">Formularz zawiera błędy:<br />" + bledyHTML + "</div>";
             }
             else {
-                Blad.Text = "";
+                Blad.InnerHtml = "";
 
                 // =================================
             
@@ -141,7 +134,7 @@ public partial class Rejestracja : System.Web.UI.Page
 
                 StringBuilder hash = new StringBuilder();
                 foreach (byte b in result)
-                    hash.AppendFormat("{0:x2}", b);
+                hash.AppendFormat("{0:x2}", b);
 
                 zapytanie.Parameters.Add(new MySqlParameter("@Haslo", hash.ToString()));
 
@@ -172,14 +165,13 @@ public partial class Rejestracja : System.Web.UI.Page
             conn.Close();
         }
         catch (MySqlException ex) {
-            Blad.Text = ex.ToString();
+            Blad.InnerHtml = ex.ToString();
         }
     }
 
     public string gwiazdka { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
-        
         if (Session["zalogowany"] != null)
             Response.Redirect("./", true);
         

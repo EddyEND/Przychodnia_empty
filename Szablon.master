@@ -25,7 +25,9 @@
                     <a href="./Logowanie.aspx">Logowanie</a>
                 </div>
             </div>
-            <div id="NavbarDol"></div>
+            <div id="NavbarDol" runat="server">
+                <div class="info">Witaj! Aby skorzystać z oferty naszej przychodni musisz się zalogować. Jeśli nie masz konta zarejestruj się.</div>
+            </div>
         </div>
         <asp:ContentPlaceHolder id="MainContent" runat="server"></asp:ContentPlaceHolder>
         <footer>

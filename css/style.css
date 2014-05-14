@@ -76,13 +76,12 @@ table {
     vertical-align: top;
     text-align: center;
 }
+/*
 #NavbarZaloguj.menu {
     overflow: hidden;
 }
 #NavbarZaloguj.menu > div:last-child {
     background-color: #ffffff;
-    /*width: 180px;
-    margin-left: -60px;*/
 }
 #NavbarZaloguj.menu > div:last-child a,
 #NavbarZaloguj.menu > div:last-child a:link {
@@ -109,6 +108,7 @@ table {
 #NavbarZaloguj.menu:hover > div:last-child {
     position: absolute;
 }
+*/
 #NavbarDol {
     height: 65px;
     background-color: #07698e;
@@ -117,6 +117,24 @@ table {
     -moz-box-shadow: 0px 4px 0px 0px rgba(50, 50, 50, 0.45);
     box-shadow: 0px 4px 0px 0px rgba(50, 50, 50, 0.45);
     display: block;
+}
+#NavbarDol > div {
+    max-width: 1200px;
+    padding: 20px 8px;
+    margin: 0px auto;
+    color: #FFFFFF;
+    text-align: center;
+}
+#NavbarDol > div > div {
+    margin: 0px 20px;
+    display: inline-block;
+    color: #FFFFFF;
+    font-size: 1.2em;
+}
+#NavbarDol > div.info {
+    font-size: 1.4em;
+    text-align: center;
+    color: #ccc;
 }
 /* ---------- Koniec NAVBAR ------------- */
 
@@ -229,12 +247,13 @@ a:link {
 /* ---------- KONIEC ACTIVCE ------------ */
 
 /* ---------- REJESTRACJA/LOGOWANIE------ */
-#Rejestracja_, #Logowanie, #Kalendarz_ {
+#Rejestracja_, #Logowanie, #Kalendarz_, .ramka {
     margin: 20px 0px;
 }
 #Rejestracja_ > div,
 #Logowanie > div,
-#Kalendarz_ > div {
+#Kalendarz_ > div,
+.ramka > div {
     width: 750px;
     margin: 0px auto;
     text-align: center;
@@ -246,23 +265,30 @@ a:link {
     -webkit-box-shadow: 0 1px 3px 1px #ccc;
     box-shadow: 0 1px 3px 1px #ccc;
 }
+.ramka > div {
+}
 #Rejestracja_ .wiersz,
-#Logowanie .wiersz {
+#Logowanie .wiersz,
+.ramka .wiersz {
     text-align: left;
     width: 546px;
     margin: 0px auto
 }
-#Logowanie .wiersz {
-    text-align: right;
+#Logowanie .wiersz,
+#r0 .wiersz {
+    text-align: center;
 }
+
 #Rejestracja_ .pole,
-#Logowanie .pole {
+#Logowanie .pole,
+.ramka .pole {
     text-align: left;
     width: 270px;
     display: inline-block;
 }
 #Rejestracja_ label,
-#Logowanie label {
+#Logowanie label,
+.ramka label {
     width: 250px;
     text-align: left;
     font-size: 16px;
@@ -270,8 +296,7 @@ a:link {
     padding-left: 2px;
     margin-bottom: 6px;
 }
-#Rejestracja_ input[type="text"], #Rejestracja_ input[type="password"],
-#Logowanie input[type="text"], #Logowanie input[type="password"] {
+select, input[type="text"], input[type="password"] {
     width: 250px;
     height: 24px;
     padding: 8px 6px;
@@ -293,15 +318,18 @@ a:link {
     -o-transition: border linear .2s,box-shadow linear .2s;
     transition: border linear .2s,box-shadow linear .2s;
 }
-#Rejestracja_ input[type="text"]:focus, #Rejestracja_ input[type="password"]:focus,
-#Logowanie input[type="text"]:focus, #Logowanie input[type="password"]:focus {
+select:focus, input[type="text"]:focus, input[type="password"]:focus{
     border-color: #029dd3;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(82,168,236,.6);
     -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(82,168,236,.6);
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(82,168,236,.6);
 }
-#Rejestracja_ input[type="submit"], #Logowanie input[type="submit"] {
+select {
+    height: 40px;
+    width: 262px;
+}
+input[type="submit"], #Logowanie input[type="submit"] {
     display: inline-block;
     padding: 4px 20px 4px 20px;
     margin-bottom: 0;
@@ -409,14 +437,17 @@ a:link {
     width: 465px;
     color: #FFFFFF;
 }
-#Kalendarz_ a,
-#Kalendarz_ a:link, #Kalendarz_ a:visited {
+#Kalendarz_ a, #NavbarDol a,
+#Kalendarz_ a:link, #Kalendarz_ a:visited,
+#NavbarDol a:link, #NavbarDol a:visited {
     color: #FFFFFF;
 }
-#Kalendarz_ a:hover {
+#Kalendarz_ a:hover,
+#NavbarDol a:hover {
     text-decoration: underline;
 }
-#Kalendarz_ a:active {
+#Kalendarz_ a:active,
+#NavbarDol a:active {
     color: #FFFFFF;
 }
 #tabela {

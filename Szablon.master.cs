@@ -15,7 +15,7 @@ public partial class Szablon : System.Web.UI.MasterPage
 
         if (CurrentPage == "Kalendarz.aspx")
             NavbarKalendarz.Attributes["class"] = "active";
-        else if (CurrentPage == "Rejestracja.aspx")
+        else if (CurrentPage == "Rejestracja.aspx" || CurrentPage == "Wizyta.aspx")
             NavbarRejestracja.Attributes["class"] = "active";
         else if (CurrentPage == "Logowanie.aspx")
             NavbarZaloguj.Attributes["class"] = "active";
@@ -24,13 +24,12 @@ public partial class Szablon : System.Web.UI.MasterPage
         if (Session["zalogowany"] != null)
         {
             NavbarRejestracja.InnerHtml = "<a href='Wizyta.aspx'>Wizyta</a>";
+            NavbarZaloguj.InnerHtml = "<div><a href=\"./Wyloguj.aspx\">Wyloguj</a></div>";
 
-            NavbarZaloguj.Attributes.Add("class", "menu");
-            HtmlGenericControl div = new HtmlGenericControl("div");
-            div.InnerHtml += "<div><a href=\"./Panel.aspx\">Panel użytkownika</a></div>";
-            div.InnerHtml += "<div><a href=\"./Wyloguj.aspx\">Wyloguj</a></div>";
-            NavbarZaloguj.InnerHtml = "<div><a href=\"\" onclick=\"javascript: return false;\">" + Session["nazwa"] + "</a></div>"; // dodac jquery i preventdefault
-            NavbarZaloguj.Controls.Add(div);
+            string ap = "<div><a href=\"./admin/\">AP</a></div>";
+            if (Session["typ"].ToString() != "A") ap = "";
+
+            NavbarDol.InnerHtml = "<div><div>Witaj, " + Session["imie"] + " " + Session["nazwisko"] + ".</div><div>Nie masz nowych wiadomości.</div><div>Nie masz umówionej wizyty.</div><div><a href=\"./Panel.aspx\">Panel użytkownika</a></div>" + ap + "</div>";
         }
 
         if (!IsPostBack && Request.UrlReferrer != null)

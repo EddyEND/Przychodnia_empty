@@ -25,6 +25,23 @@ public partial class Redirect : System.Web.UI.Page
             Page.Title = "Wyloguj";
             div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Wylogowano prawidłowo.<br />Teraz nastąpi przeniesienie na stronę główną.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
         }
+        else if (action == "chdane")
+        {
+            Page.Title = "Panel użytkownika";
+            div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Dane zmienione prawidłowo.<br />Teraz nastąpi przeniesienie do poprzedniej lokalizacji.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
+        }
+        else if (action == "chemail")
+        {
+            Page.Title = "Panel użytkownika";
+            div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Adres E-mail zmieniony prawidłowo.<br />Teraz nastąpi przeniesienie do poprzedniej lokalizacji.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
+        }
+        else if (action == "chhaslo")
+        {
+            Session.Abandon();
+            Page.Title = "Panel użytkownika";
+            link = "./Logowanie.aspx";
+            div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Hasło zmienione prawidłowo.<br />Teraz nastąpi przeniesienie na stronę logowania.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
+        }
         else if (action == "permission"){
             Page.Title = "Brak uprawnień";
             link = "./Logowanie.aspx";
