@@ -19,8 +19,8 @@ public partial class Panel : System.Web.UI.Page
     protected bool sprHaslo(string haslo)
     {
         List<string> bledy = new List<string>();
-       
-        if (HasloInput.Value == "")
+
+        if (HasloInput.Value.Trim() == "")
             bledy.Add("Brak aktualnego hasła");
         else
         {
@@ -39,7 +39,7 @@ public partial class Panel : System.Web.UI.Page
                 if (wynik.Read())
                 {
                     SHA512 alg = SHA512.Create();
-                    byte[] result = alg.ComputeHash(Encoding.UTF8.GetBytes(HasloInput.Value));
+                    byte[] result = alg.ComputeHash(Encoding.UTF8.GetBytes(HasloInput.Value.Trim()));
 
                     StringBuilder hash = new StringBuilder();
                     foreach (byte b in result)
@@ -77,11 +77,11 @@ public partial class Panel : System.Web.UI.Page
     protected bool validDane()
     {
         List<string> bledy = new List<string>();
-        
-        if (NewImieInput.Value == "")
+
+        if (NewImieInput.Value.Trim() == "")
             bledy.Add("Brak imienia");
 
-        if (NewNazwiskoInput.Value == "")
+        if (NewNazwiskoInput.Value.Trim() == "")
             bledy.Add("Brak nazwiska");
 
         if (bledy.Count > 0)
@@ -105,8 +105,8 @@ public partial class Panel : System.Web.UI.Page
 
                 string sql = "UPDATE users SET imie=@Imie, nazwisko=@Nazwisko WHERE id=@id;";
                 MySqlCommand zapytanie = new MySqlCommand(sql, conn);
-                zapytanie.Parameters.Add(new MySqlParameter("@Imie", NewImieInput.Value));
-                zapytanie.Parameters.Add(new MySqlParameter("@Nazwisko", NewNazwiskoInput.Value));
+                zapytanie.Parameters.Add(new MySqlParameter("@Imie", NewImieInput.Value.Trim()));
+                zapytanie.Parameters.Add(new MySqlParameter("@Nazwisko", NewNazwiskoInput.Value.Trim()));
                 zapytanie.Parameters.Add(new MySqlParameter("@Id", Session["id"].ToString()));
 
                 int wynik = zapytanie.ExecuteNonQuery();
@@ -146,17 +146,17 @@ public partial class Panel : System.Web.UI.Page
     {
         List<string> bledy = new List<string>();
 
-        if (NewEmailInput.Value == "")
+        if (NewEmailInput.Value.Trim() == "")
             bledy.Add("Brak adresu E-mail");
         else
         {
             string emailReg = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
             Regex reg = new Regex(emailReg);
-            if (!reg.IsMatch(NewEmailInput.Value)) bledy.Add("Nieprawidłowy adres E-mail");
+            if (!reg.IsMatch(NewEmailInput.Value.Trim())) bledy.Add("Nieprawidłowy adres E-mail");
 
-            else if (NewEmailInput2.Value == "")
+            else if (NewEmailInput2.Value.Trim() == "")
                 bledy.Add("Brak powtórzenia adresu E-mail");
-            else if (NewEmailInput.Value != NewEmailInput2.Value)
+            else if (NewEmailInput.Value.Trim() != NewEmailInput2.Value.Trim())
                 bledy.Add("Adresy E-mail nie są identyczne");
             else
             {
@@ -166,7 +166,7 @@ public partial class Panel : System.Web.UI.Page
                 
                     string sql = "SELECT id FROM users WHERE email=@Email AND id<>@Id;";
                     MySqlCommand zapytanie = new MySqlCommand(sql, conn);
-                    zapytanie.Parameters.Add(new MySqlParameter("@Email", NewEmailInput.Value));
+                    zapytanie.Parameters.Add(new MySqlParameter("@Email", NewEmailInput.Value.Trim()));
                     zapytanie.Parameters.Add(new MySqlParameter("@Id", Session["id"].ToString()));
 
                     object wynik = zapytanie.ExecuteScalar();
@@ -180,7 +180,7 @@ public partial class Panel : System.Web.UI.Page
 
                         sql = "UPDATE users SET email=@Email WHERE id=@id;";
                         zapytanie = new MySqlCommand(sql, conn);
-                        zapytanie.Parameters.Add(new MySqlParameter("@Email", NewEmailInput.Value));
+                        zapytanie.Parameters.Add(new MySqlParameter("@Email", NewEmailInput.Value.Trim()));
                         zapytanie.Parameters.Add(new MySqlParameter("@Id", Session["id"].ToString()));
 
                         int wyn = zapytanie.ExecuteNonQuery();
@@ -230,37 +230,37 @@ public partial class Panel : System.Web.UI.Page
     protected bool validHaslo()
     {
         List<string> bledy = new List<string>();
-        
-        if (NewHasloInput.Value == "")
+
+        if (NewHasloInput.Value.Trim() == "")
             bledy.Add("Brak hasła");
         else
         {
-            if (NewHasloInput.Value.Length < 8)
+            if (NewHasloInput.Value.Trim().Length < 8)
                 bledy.Add("Hasło ma mniej niż 8 znaków");
             else
             { // regexpy hasła
                 string znakiSpecjalne = "` ~ ! @ # $ % ^ & * ( ) _ + \\- = \\[ \\] { } , . : ; ' \" | \\\\ / < > ?";
                 Regex reg = new Regex("[a-ząćęłńóśźż]");
-                if (!reg.IsMatch(NewHasloInput.Value)) bledy.Add("Hasło musi mieć przynajmniej jedną małą literę");
+                if (!reg.IsMatch(NewHasloInput.Value.Trim())) bledy.Add("Hasło musi mieć przynajmniej jedną małą literę");
                 reg = new Regex("[A-ZĄĆĘŁŃÓŚŹŻ]");
-                if (!reg.IsMatch(NewHasloInput.Value)) bledy.Add("Hasło musi mieć przynajmniej jedną dużą literę");
+                if (!reg.IsMatch(NewHasloInput.Value.Trim())) bledy.Add("Hasło musi mieć przynajmniej jedną dużą literę");
                 reg = new Regex("[0-9]");
-                if (!reg.IsMatch(NewHasloInput.Value)) bledy.Add("Hasło musi mieć przynajmniej jedną cefrę");
+                if (!reg.IsMatch(NewHasloInput.Value.Trim())) bledy.Add("Hasło musi mieć przynajmniej jedną cefrę");
                 reg = new Regex("[" + znakiSpecjalne + "]");
-                if (!reg.IsMatch(NewHasloInput.Value)) bledy.Add("Hasło musi mieć przynajmniej jeden symbol:<br />` ~ ! @ # $ % ^ & * ( ) _ + - = [ ] { } , . : ; ' \" | \\ / < > ?");
+                if (!reg.IsMatch(NewHasloInput.Value.Trim())) bledy.Add("Hasło musi mieć przynajmniej jeden symbol:<br />` ~ ! @ # $ % ^ & * ( ) _ + - = [ ] { } , . : ; ' \" | \\ / < > ?");
 
                 reg = new Regex("[^a-ząćęłńóśźżA-ZĄĆĘŁŃÓŚŹŻ0-9 " + znakiSpecjalne + "]");
-                if (reg.IsMatch(NewHasloInput.Value))
+                if (reg.IsMatch(NewHasloInput.Value.Trim()))
                 {
                     string bledyReg = "";
-                    foreach (Match match in reg.Matches(NewHasloInput.Value))
-                        bledyReg += " " + match.Value + "[" + match.Index + "]";
+                    foreach (Match match in reg.Matches(NewHasloInput.Value.Trim()))
+                        bledyReg += " " + match.Value.Trim() + "[" + match.Index + "]";
 
                     bledy.Add("Hasło zawiera niedozwolony znak/i (znak [pozycja]):" + bledyReg);
                 }
-                if (bledy.Count == 0 && NewHasloInput2.Value == "")
+                if (bledy.Count == 0 && NewHasloInput2.Value.Trim() == "")
                     bledy.Add("Brak powtórzenia hasła");
-                else if (bledy.Count == 0 && NewHasloInput.Value != NewHasloInput2.Value)
+                else if (bledy.Count == 0 && NewHasloInput.Value.Trim() != NewHasloInput2.Value.Trim())
                     bledy.Add("Hasła nie są identyczne");
             }
         }
@@ -288,11 +288,11 @@ public partial class Panel : System.Web.UI.Page
                 MySqlCommand zapytanie = new MySqlCommand(sql, conn);
 
                 SHA512 alg = SHA512.Create();
-                byte[] result = alg.ComputeHash(Encoding.UTF8.GetBytes(NewHasloInput.Value));
+                byte[] result = alg.ComputeHash(Encoding.UTF8.GetBytes(NewHasloInput.Value.Trim()));
 
                 StringBuilder hash = new StringBuilder();
                 foreach (byte b in result)
-                hash.AppendFormat("{0:x2}", b);
+                    hash.AppendFormat("{0:x2}", b);
 
                 zapytanie.Parameters.Add(new MySqlParameter("@Haslo", hash.ToString()));
                 zapytanie.Parameters.Add(new MySqlParameter("@Id", Session["id"].ToString()));
@@ -328,7 +328,7 @@ public partial class Panel : System.Web.UI.Page
 
         if (Page.IsPostBack)
         {
-            if (sprHaslo(HasloInput.Value))
+            if (sprHaslo(HasloInput.Value.Trim()))
             {
                 blad1.InnerHtml = blad2.InnerHtml = blad3.InnerHtml = "";
                 if (Request.Form["dane"] != null)

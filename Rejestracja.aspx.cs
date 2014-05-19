@@ -23,21 +23,21 @@ public partial class Rejestracja : System.Web.UI.Page
             conn.Open();
 
          // Validacje
-            if (ImieInput.Value == "")
+            if (ImieInput.Value.Trim() == "")
                 bledy.Add("Brak imienia");
 
-            if (NazwiskoInput.Value == "")
+            if (NazwiskoInput.Value.Trim() == "")
                 bledy.Add("Brak nazwiska");
 
-            if (NazwaInput.Value == "")
+            if (NazwaInput.Value.Trim() == "")
                 bledy.Add("Brak nazwy użytkownika");
             else {
-                if (NazwaInput.Value.Length < 4)
+                if (NazwaInput.Value.Trim().Length < 4)
                     bledy.Add("Nazwa ma mniej niż 4 znaki");
                 else {
                     string sql = "SELECT id FROM users WHERE nazwa=@Nazwa;";
                     MySqlCommand zapytanie = new MySqlCommand(sql, conn);
-                    zapytanie.Parameters.Add(new MySqlParameter("@Nazwa", NazwaInput.Value));
+                    zapytanie.Parameters.Add(new MySqlParameter("@Nazwa", NazwaInput.Value.Trim()));
 
                     object wynik = zapytanie.ExecuteScalar();
 
@@ -48,53 +48,54 @@ public partial class Rejestracja : System.Web.UI.Page
                 }
             }
 
-            if (HasloInput.Value == "")
+            if (HasloInput.Value.Trim() == "")
                 bledy.Add("Brak hasła");
             else {
-                if (HasloInput.Value.Length < 8)
+                if (HasloInput.Value.Trim().Length < 8)
                     bledy.Add("Hasło ma mniej niż 8 znaków");
                 else { // regexpy hasła
                     string znakiSpecjalne = "` ~ ! @ # $ % ^ & * ( ) _ + \\- = \\[ \\] { } , . : ; ' \" | \\\\ / < > ?";
                     Regex reg = new Regex("[a-ząćęłńóśźż]");
-                    if (!reg.IsMatch(HasloInput.Value)) bledy.Add("Hasło musi mieć przynajmniej jedną małą literę");
+                    if (!reg.IsMatch(HasloInput.Value.Trim())) bledy.Add("Hasło musi mieć przynajmniej jedną małą literę");
                     reg = new Regex("[A-ZĄĆĘŁŃÓŚŹŻ]");
-                    if (!reg.IsMatch(HasloInput.Value)) bledy.Add("Hasło musi mieć przynajmniej jedną dużą literę");
+                    if (!reg.IsMatch(HasloInput.Value.Trim())) bledy.Add("Hasło musi mieć przynajmniej jedną dużą literę");
                     reg = new Regex("[0-9]");
-                    if (!reg.IsMatch(HasloInput.Value)) bledy.Add("Hasło musi mieć przynajmniej jedną cefrę");
+                    if (!reg.IsMatch(HasloInput.Value.Trim())) bledy.Add("Hasło musi mieć przynajmniej jedną cefrę");
                     reg = new Regex("[" + znakiSpecjalne + "]");
-                    if (!reg.IsMatch(HasloInput.Value)) bledy.Add("Hasło musi mieć przynajmniej jeden symbol:<br />` ~ ! @ # $ % ^ & * ( ) _ + - = [ ] { } , . : ; ' \" | \\ / < > ?");
+                    if (!reg.IsMatch(HasloInput.Value.Trim())) bledy.Add("Hasło musi mieć przynajmniej jeden symbol:<br />` ~ ! @ # $ % ^ & * ( ) _ + - = [ ] { } , . : ; ' \" | \\ / < > ?");
 
                     reg = new Regex("[^a-ząćęłńóśźżA-ZĄĆĘŁŃÓŚŹŻ0-9 " + znakiSpecjalne + "]");
-                    if (reg.IsMatch(HasloInput.Value)) {
+                    if (reg.IsMatch(HasloInput.Value.Trim()))
+                    {
                         string bledyReg = "";
-                        foreach (Match match in reg.Matches(HasloInput.Value))
-                            bledyReg += " " + match.Value + "[" + match.Index + "]";
+                        foreach (Match match in reg.Matches(HasloInput.Value.Trim()))
+                            bledyReg += " " + match.Value.Trim() + "[" + match.Index + "]";
 
                         bledy.Add("Hasło zawiera niedozwolony znak/i (znak [pozycja]):" + bledyReg); 
                     }
-                    if (HasloInput2.Value == "")
+                    if (HasloInput2.Value.Trim() == "")
                         bledy.Add("Brak powtórzenia hasła");
-                    else if (HasloInput.Value != HasloInput2.Value)
+                    else if (HasloInput.Value.Trim() != HasloInput2.Value.Trim())
                         bledy.Add("Hasła nie są identyczne");
                 }
             }
 
-            if (EmailInput.Value == "")
+            if (EmailInput.Value.Trim() == "")
                 bledy.Add("Brak adresu E-mail");
             else {
                 string emailReg = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
                 Regex reg = new Regex(emailReg);
-                if (!reg.IsMatch(EmailInput.Value)) bledy.Add("Nieprawidłowy adres E-mail");
+                if (!reg.IsMatch(EmailInput.Value.Trim())) bledy.Add("Nieprawidłowy adres E-mail");
 
-                else if (EmailInput2.Value == "")
+                else if (EmailInput2.Value.Trim() == "")
                     bledy.Add("Brak powtórzenia adresu E-mail");
-                else if (EmailInput.Value != EmailInput2.Value)
+                else if (EmailInput.Value.Trim() != EmailInput2.Value.Trim())
                         bledy.Add("Adresy E-mail nie są identyczne");
                 else
                 {
                     string sql = "SELECT id FROM users WHERE email=@Email;";
                     MySqlCommand zapytanie = new MySqlCommand(sql, conn);
-                    zapytanie.Parameters.Add(new MySqlParameter("@Email", EmailInput.Value));
+                    zapytanie.Parameters.Add(new MySqlParameter("@Email", EmailInput.Value.Trim()));
 
                     object wynik = zapytanie.ExecuteScalar();
 
@@ -124,13 +125,13 @@ public partial class Rejestracja : System.Web.UI.Page
                 string sql = "INSERT INTO users VALUES (@Id, @Nazwa, @Imie, @Nazwisko, @Email, @Haslo, @DataRejestracji, @Aktywne, @Typ);";
                 MySqlCommand zapytanie = new MySqlCommand(sql, conn);
                 zapytanie.Parameters.Add(new MySqlParameter("@Id", 0));
-                zapytanie.Parameters.Add(new MySqlParameter("@Nazwa", NazwaInput.Value));
-                zapytanie.Parameters.Add(new MySqlParameter("@Imie", ImieInput.Value));
-                zapytanie.Parameters.Add(new MySqlParameter("@Nazwisko", NazwiskoInput.Value));
-                zapytanie.Parameters.Add(new MySqlParameter("@Email", EmailInput.Value));
+                zapytanie.Parameters.Add(new MySqlParameter("@Nazwa", NazwaInput.Value.Trim()));
+                zapytanie.Parameters.Add(new MySqlParameter("@Imie", ImieInput.Value.Trim()));
+                zapytanie.Parameters.Add(new MySqlParameter("@Nazwisko", NazwiskoInput.Value.Trim()));
+                zapytanie.Parameters.Add(new MySqlParameter("@Email", EmailInput.Value.Trim()));
 
                 SHA512 alg = SHA512.Create();
-                byte[] result = alg.ComputeHash(Encoding.UTF8.GetBytes(HasloInput.Value));
+                byte[] result = alg.ComputeHash(Encoding.UTF8.GetBytes(HasloInput.Value.Trim()));
 
                 StringBuilder hash = new StringBuilder();
                 foreach (byte b in result)
@@ -144,15 +145,15 @@ public partial class Rejestracja : System.Web.UI.Page
                 zapytanie.Parameters.Add(new MySqlParameter("@DataRejestracji", elapsedTime.TotalSeconds.ToString()));
 
                 zapytanie.Parameters.Add(new MySqlParameter("@Aktywne", "0"));
-                zapytanie.Parameters.Add(new MySqlParameter("@Typ", "U"));
+                zapytanie.Parameters.Add(new MySqlParameter("@Typ", "P"));
 
                 int wynik = zapytanie.ExecuteNonQuery();
 
                 if (wynik > 0)
                 {
                     HtmlGenericControl div = new HtmlGenericControl("div");
-                    
-                    div.InnerHtml = "Dziękujemy za rejestrację, " + NazwaInput.Value + ". Twoje konto jest gotowe do użycia. Teraz możesz się zalogować.";
+
+                    div.InnerHtml = "Dziękujemy za rejestrację, " + NazwaInput.Value.Trim() + ". Twoje konto jest gotowe do użycia. Teraz możesz się zalogować.";
                     Rejestracja_.Controls.Clear();
                     Rejestracja_.Controls.Add(div);
                 }

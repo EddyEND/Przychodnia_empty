@@ -44,8 +44,30 @@ public partial class Redirect : System.Web.UI.Page
         }
         else if (action == "permission"){
             Page.Title = "Brak uprawnień";
-            link = "./Logowanie.aspx";
+            if (link == "admin") link = "../Logowanie.aspx";
+            else link = "./Logowanie.aspx";
             div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Aby przeglądać tą stronę musisz być zalogowany.<br />Teraz nastąpi przeniesienie na stronę logowania.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
+        }
+        else if (action == "adminperm")
+        {
+            Page.Title = "Brak uprawnień";
+            link = "../";
+            div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Do tej strony mają dostep tylko administratorzy.<br />Teraz nastąpi przeniesienie na stronę główną.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
+        }
+        else if (action == "useredit")
+        {
+            Page.Title = "Admin";
+            div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Konto edytowano prawidłowo.<br />Teraz nastąpi przeniesienie do poprzedniej lokalizacji.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
+        }
+        else if (action == "newsedit")
+        {
+            Page.Title = "Admin";
+            div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Aktualność edytowana prawidłowo.<br />Teraz nastąpi przeniesienie do poprzedniej lokalizacji.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
+        }
+        else if (action == "newsadd")
+        {
+            Page.Title = "Admin";
+            div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Aktualność dodana prawidłowo.<br />Teraz nastąpi przeniesienie do poprzedniej lokalizacji.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
         }
 
         HtmlMeta metaKey = new HtmlMeta();

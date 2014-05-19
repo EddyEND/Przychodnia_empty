@@ -156,6 +156,33 @@ table {
     padding: 10px 8px;
     margin: 0px auto;
 }
+
+#slider1_container{
+    position: relative; 
+    overflow: hidden;
+    margin: 0 auto;  
+}
+.jssorb21 div, .jssorb21 div:hover, .jssorb21 .av
+{
+	background: url(../images/b21.png) no-repeat;
+	overflow:hidden;
+	cursor: pointer;
+	
+}
+.jssorb21 div { background-position: -5px -5px; }
+.jssorb21 div:hover, .jssorb21 .av:hover { background-position: -35px -5px; }
+.jssorb21 .av { background-position: -65px -5px; }
+.jssorb21 .dn, .jssorb21 .dn:hover { background-position: -95px -5px; }
+
+#dzielenie {
+    background-color : #333;
+    border : double 1px #f2f2f2; 
+}
+.zdjecia {
+    -webkit-box-shadow: 0px 0px 22px 0px rgba(255, 255, 255, 0.78);
+    -moz-box-shadow:    0px 0px 22px 0px rgba(255, 255, 255, 0.78);
+    box-shadow:         0px 0px 22px 0px rgba(255, 255, 255, 0.78);
+}
 /* ---------- KONIEC TREŒCI ------------- */
 
 /* ---------- INFORMACJE ---------------- */
@@ -278,13 +305,45 @@ a:link {
 #r0 .wiersz {
     text-align: center;
 }
-
 #Rejestracja_ .pole,
 #Logowanie .pole,
 .ramka .pole {
-    text-align: left;
+    text-align: center;
     width: 270px;
     display: inline-block;
+}
+#admin .pole{
+    text-align: left;
+    width: 250px;
+}
+#admin .pole:first-child{
+    margin-right: 20px;
+}
+#admin .pole span{
+    float: right;
+}
+#dataInput, #specInput {
+    width: 284px;
+}
+#specInput select {
+    width: inherit;
+}
+#dataInput select {
+    width: 75px;
+}
+#dataInput select:nth-of-type(1) {
+    width: 80px;
+}
+#dataInput select:nth-of-type(2) {
+    width: 120px;
+}
+#TytulInput, #TrescInput {
+    width: 530px;
+}
+#TrescInput {
+    min-height: 200px;
+    max-width: 530px;
+    font-family: Arial;
 }
 #Rejestracja_ label,
 #Logowanie label,
@@ -296,7 +355,7 @@ a:link {
     padding-left: 2px;
     margin-bottom: 6px;
 }
-select, input[type="text"], input[type="password"] {
+select, input[type="text"], input[type="password"], textarea {
     width: 250px;
     height: 24px;
     padding: 8px 6px;
@@ -329,7 +388,8 @@ select {
     height: 40px;
     width: 262px;
 }
-input[type="submit"], #Logowanie input[type="submit"] {
+#Rejestracja input[type="submit"], #Logowanie input[type="submit"], 
+#r0 input[type="submit"], #r1 input[type="submit"], #r2 input[type="submit"], #r3 input[type="submit"] {
     display: inline-block;
     padding: 4px 20px 4px 20px;
     margin-bottom: 0;
@@ -365,12 +425,24 @@ input[type="submit"], #Logowanie input[type="submit"] {
     margin-bottom: 16px;
     text-align: center;
 }
+.dodaj {
+    margin-bottom: 8px;
+}
 .infoMale {
     margin-top: 10px;
     font-size: 12px;
 }
 .gwiazdka {
     color: red;
+}
+.ok {
+    background-color: #63a05c;
+    border: 1px solid #216919;
+    margin-bottom: 8px !important;
+    padding: 10px 16px;
+    color: #FFFFFF;
+    min-height: 20px;
+    text-align: left !important;
 }
 .blad {
     background-color: #bd5a5a;
@@ -390,6 +462,30 @@ input[type="submit"], #Logowanie input[type="submit"] {
 
 
 /* ---------- KALENDARZ ----------------- */
+.tip_trigger {
+    background-color: #7bbcf3;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding: 0px 4px;
+    margin-bottom: 2px;
+    cursor: default;
+}
+.tip {
+    color: #fff;
+    background: #1d1d1d;
+    font-size: 11px;
+    font-family: Verdana, Tahoma, Arial;
+    display: none;
+    padding: 10px;
+    position: absolute;    
+    z-index: 1000;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-align: left;
+    min-width: 100px;
+}
 .tydzien{
     height: 30px;
     width : 138px;
@@ -404,8 +500,12 @@ input[type="submit"], #Logowanie input[type="submit"] {
     text-align:right;
     padding-top: 0.6%;
     color: #333;
-    padding : 5px 5px 0px 0px;
+    padding: 5px;
     font: 500 17px Calibri !important;
+}
+.dzisiaj {
+    color: red;
+    font-weight: bold;
 }
 #Kalendarz_ > div {
     width: 960px;
@@ -464,8 +564,26 @@ input[type="submit"], #Logowanie input[type="submit"] {
 #tabela .komorka:last-child {
     border-right: 1px solid #07698e;
 }
-
-
+#admin #tabela {
+    margin: 0px auto;
+}
+#admin .wiersz.head > div {
+    border-top: 1px solid #07698e;
+    font-weight: bold;
+}
+#admin .komorka {
+    padding: 2px 5px;
+}
+#admin #tabela.u .komorka {
+    max-width: 200px;
+    overflow: hidden;
+}
+#admin #tabela.u .wiersz:not(:first-child) .komorka:last-child {
+    text-align: center;
+}
+.noborder .komorka {
+    border: 0px !important;
+}
 /* ---------- KONIEC KALENDARZ ---------- */
 
 #redir {

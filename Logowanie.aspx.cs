@@ -15,9 +15,9 @@ public partial class Logowanie : System.Web.UI.Page
     {
         List<string> bledy = new List<string>();
 
-        if (NazwaInput.Value == "")
+        if (NazwaInput.Value.Trim() == "")
             bledy.Add("Nie podano nazwy użytkownika");
-        if (HasloInput.Value == "")
+        if (HasloInput.Value.Trim() == "")
             bledy.Add("Nie podano hasła");
 
         if (bledy.Count == 0)
@@ -30,7 +30,7 @@ public partial class Logowanie : System.Web.UI.Page
                 conn.Open();
                 string sql = "SELECT * FROM users WHERE nazwa=@Nazwa LIMIT 1;";
                 MySqlCommand zapytanie = new MySqlCommand(sql, conn);
-                zapytanie.Parameters.Add(new MySqlParameter("@Nazwa", NazwaInput.Value));
+                zapytanie.Parameters.Add(new MySqlParameter("@Nazwa", NazwaInput.Value.Trim()));
                 MySqlDataReader wynik = zapytanie.ExecuteReader();
 
                 if (wynik.Read())
@@ -39,7 +39,7 @@ public partial class Logowanie : System.Web.UI.Page
 
 
                     SHA512 alg = SHA512.Create();
-                    byte[] result = alg.ComputeHash(Encoding.UTF8.GetBytes(HasloInput.Value));
+                    byte[] result = alg.ComputeHash(Encoding.UTF8.GetBytes(HasloInput.Value.Trim()));
 
                     StringBuilder hash = new StringBuilder();
                     foreach (byte b in result)

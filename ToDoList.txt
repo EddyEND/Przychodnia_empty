@@ -1,16 +1,36 @@
 ﻿zapamiętaj mnie przy logowaniu - na razie odpuszczam, może później zrobie; timeout sesji na 60 min ustawione
 
 strona przekierowania layout - zrobione, można coś zmienić
-
 rejestracja nowego konta - zrobione
 validacja rejestracji - zrobione
+formularz umówienia wizyty - done
+panel uzytkownika - done
+sprawdzenie czy liczba pacjentow nie przekroczy godzin przyjec - done
+wyswietlenie w navbardol kolejna wizyte - done
+wydarzenia w kalendarzu - done
 
-
-
-wydarzenia w kalendarzu
-
-formularz umówienia wizyty
-
-panel uzytkownika
 
 panel admina
+	aktualnosci
+		wyswietlanie
+		dodawanie
+		edytowanie
+		usuwanie
+
+	ustawienia ogolne
+		zmiana
+		
+	uzytkownicy
+		wyswietlanie - done
+		edycja - done
+		usuwanie - done
+		dodawanie 
+	wizyty
+		wyswietlanie - done
+
+	statystyki;
+		zarejestrowanych kont pacjentow - done
+		umówionych wizyt - done
+		specjalistow - done
+
+

@@ -1,11 +1,13 @@
-﻿<%@ Page Title="Umów wizytę" Language="C#" MasterPageFile="~/Szablon.master" AutoEventWireup="true" CodeFile="Wizyta.aspx.cs" Inherits="Wizyta" %>
+﻿<%@ Page Title="Admin" Language="C#" MasterPageFile="~/admin/MasterAdmin.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="admin_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <script type="text/javascript" src="../js/admin.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <div class="ramka">
-        <div id="r0" runat="server"> 
-            <div class="naglowek">Umów wizytę w naszej przychodni</div>
+        <div id="admin" runat="server"> 
+            <div id="Blad" runat="server"></div>
+            <%--<div class="naglowek">Umów wizytę w naszej przychodni</div>
             <div id="Blad" runat="server"></div>
             <div class="wiersz">
                 <div id="dataInput" class="pole">
@@ -18,7 +20,7 @@
             <div class="wiersz">
                 <div id="specInput" class="pole"><label for="SpecjalistaInput">Specjalista: </label><select id="SpecjalistaInput" name="SpecjalistaInput" runat="server"></select></div>
             </div>
-            <input type="submit" id="Submit1" value="Umów wizytę" />
+            <input type="submit" id="Submit1" value="Umów wizytę" />--%>
         </div>
     </div>
 </asp:Content>
