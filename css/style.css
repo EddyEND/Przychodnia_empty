@@ -212,6 +212,9 @@ table {
     text-align: left;
     vertical-align: top;
 }
+.InformacjePol p {
+    margin-top: 6px;
+}
 .InformacjePol > div{
     padding: 8px 10px;
     font-size: 1.6em;
@@ -650,4 +653,20 @@ select {
 }
 #redirect div.bottom a:active {
     color: #444;
+}
+#aktualnosci h2 {
+    text-align: left;
+    margin: 0px 10px 0px 10px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #7E7E7E;
+}
+#aktualnosci .dataNews {
+    text-align: left;
+    margin: 0px 10px 20px 10px;
+    font-size: 14px;
+}
+#aktualnosci .trescNews {
+    text-align: justify;
+    word-break:break-all;
 }

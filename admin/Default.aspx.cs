@@ -29,7 +29,7 @@ public partial class admin_Default : System.Web.UI.Page
     }
     protected void start()
     {
-        int pacjenci = 0, specjalisci = 0, wizyty = 0;
+        int pacjenci = 0, specjalisci = 0, wizyty = 0, aktualnosci = 0;
         try
         {
             conn.Open();
@@ -63,6 +63,15 @@ public partial class admin_Default : System.Web.UI.Page
             if (wynik != null)
                 wizyty = Convert.ToInt32(wynik);
 
+            //==========================================
+            sql = "SELECT COUNT(*) FROM aktualnosci;";
+            zapytanie = new MySqlCommand(sql, conn);
+
+            wynik = zapytanie.ExecuteScalar();
+
+            if (wynik != null)
+                aktualnosci = Convert.ToInt32(wynik);
+
             conn.Close();
         }
         catch (MySqlException ex)
@@ -73,11 +82,18 @@ public partial class admin_Default : System.Web.UI.Page
         string txt = "";
         txt += "<div class=\"wiersz\">";
         txt += "<div class=\"pole\">Zarejestrowanych pacjentów: <span>" + pacjenci + "</span></div>";
+        txt += "</div>";
+
+        txt += "<div class=\"wiersz\">";
         txt += "<div class=\"pole\">Specjalistów: <span>" + specjalisci + "</span></div>";
         txt += "</div>";
 
         txt += "<div class=\"wiersz\">";
         txt += "<div class=\"pole\">Umówionych wizyt: <span>" + wizyty + "</span></div>";
+        txt += "</div>";
+
+        txt += "<div class=\"wiersz\">";
+        txt += "<div class=\"pole\">Aktualności: <span>" + aktualnosci + "</span></div>";
         txt += "</div>";
 
         admin.InnerHtml = "<div class=\"naglowek\">Statystyki</div>" + txt;
@@ -309,7 +325,7 @@ public partial class admin_Default : System.Web.UI.Page
             {
                 conn.Open();
 
-                sql = "SELECT * FROM aktualnosci;";
+                sql = "SELECT * FROM aktualnosci ORDER BY `data` DESC;";
                 zapytanie = new MySqlCommand(sql, conn);
 
                 MySqlDataReader reader = zapytanie.ExecuteReader();

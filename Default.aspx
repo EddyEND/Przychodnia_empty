@@ -73,7 +73,7 @@
                         </div>
 			</div>   
     </div>
-    <div id="InformacjeFull">
+    <div id="InformacjeFull" runat="server">
         <div>
             <div class="InformacjePol">
                 <div id="inf1" runat="server">

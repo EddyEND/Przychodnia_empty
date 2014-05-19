@@ -57,7 +57,7 @@ public partial class admin_MasterAdmin : System.Web.UI.MasterPage
             List<String> linki = new List<string>();
 
             linki.Add("<div>Witaj, " + Session["nazwa"] + ".</div>");
-            linki.Add("<div><a href=\"./Default.aspx?action=ustawienia\">Ustawienia ogólne</a></div>");
+            //linki.Add("<div><a href=\"./Default.aspx?action=ustawienia\">Ustawienia ogólne</a></div>");
             linki.Add("<div><a href=\"./Default.aspx?action=aktualnosci\">Aktualności</a></div>");
             linki.Add("<div><a href=\"./Default.aspx?action=uzytkownicy\">Użytkownicy</a></div>");
             linki.Add("<div><a href=\"./Default.aspx?action=wizyty\">Wizyty</a></div>");
