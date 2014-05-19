@@ -8,23 +8,24 @@ panel uzytkownika - done
 sprawdzenie czy liczba pacjentow nie przekroczy godzin przyjec - done
 wyswietlenie w navbardol kolejna wizyte - done
 wydarzenia w kalendarzu - done
-
+newsy na stronie głównej - done
 
 panel admina
 	aktualnosci
-		wyswietlanie
-		dodawanie
-		edytowanie
-		usuwanie
+		wyswietlanie - done
+		dodawanie - done
+		edytowanie - done
+		usuwanie -done
 
-	ustawienia ogolne
+	ustawienia ogolne - odpuszczam
 		zmiana
 		
 	uzytkownicy
 		wyswietlanie - done
 		edycja - done
 		usuwanie - done
-		dodawanie 
+		dodawanie - done
+		zabezpieczenie przed usunięciem konta super admina - done
 	wizyty
 		wyswietlanie - done
 

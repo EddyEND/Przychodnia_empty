@@ -59,6 +59,11 @@ public partial class Redirect : System.Web.UI.Page
             Page.Title = "Admin";
             div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Konto edytowano prawidłowo.<br />Teraz nastąpi przeniesienie do poprzedniej lokalizacji.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
         }
+        else if (action == "useradd")
+        {
+            Page.Title = "Admin";
+            div.InnerHtml = "<div class=\"top\">Przychodnia</div><div class=\"middle\">Konto nowego użytkownika utworzono prawidłowo.<br />Teraz nastąpi przeniesienie do poprzedniej lokalizacji.</div><div class=\"bottom\"><a href=\"" + link + "\">Kliknij tutaj, jeśli nie chcesz czekać.</a></div>";
+        }
         else if (action == "newsedit")
         {
             Page.Title = "Admin";

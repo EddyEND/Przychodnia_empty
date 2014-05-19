@@ -378,7 +378,7 @@ public partial class admin_Default : System.Web.UI.Page
     protected void uzytkownicy()
     {
         string txt = "", uname = "", valid = "";
-        bool x = true;
+        bool x = true, error = false;
         int idu = 0, rows = 0;
         
         if (Page.IsPostBack)
@@ -575,6 +575,7 @@ public partial class admin_Default : System.Web.UI.Page
 
             else if (post.ContainsKey("delete"))
             {
+                List<string> bledy = new List<string>();
                 List<int> delIds = new List<int>();
                 foreach (string key in post.Keys)
                     if (key.IndexOf("del_") != -1)
@@ -584,7 +585,22 @@ public partial class admin_Default : System.Web.UI.Page
                             delIds.Add(idDel);
                     }
 
-                if (delIds.Count > 0)
+                if (delIds.Contains(1))
+                    bledy.Add("Nie można usunąć konta Super Administratora");
+
+                if (bledy.Count > 0)
+                {
+                    string bledyHTML = "<ul>";
+                    foreach (string val in bledy)
+                    {
+                        bledyHTML += "<li>" + val + "</li>";
+                    }
+                    bledyHTML += "</ul>";
+                    valid = "<div class=\"wiersz blad\">Formularz zawiera błędy:<br />" + bledyHTML + "</div>";
+                    error = true;
+                }
+                
+                else if (delIds.Count > 0)
                 {
                     string lista = String.Join(", ", delIds);
 
@@ -609,13 +625,171 @@ public partial class admin_Default : System.Web.UI.Page
                 }
                 else Response.Redirect("./Default.aspx?action=uzytkownicy");
             }
+            else if (post.ContainsKey("add")) //=============== add
+            {
+
+                if (post.ContainsKey("ImieInput") && post.ContainsKey("NazwiskoInput") && post.ContainsKey("NazwaInput") && post.ContainsKey("EmailInput") && post.ContainsKey("HasloInput") && post.ContainsKey("HasloInput2"))
+                {
+                    List<string> bledy = new List<string>();
+
+                    string connStr = ConfigurationManager.ConnectionStrings["MySQLConnStr"].ConnectionString;
+                    MySqlConnection conn = new MySqlConnection(connStr);
+
+                    try
+                    {
+                        conn.Open();
+
+                        if (post["ImieInput"].ToString() == "")
+                            bledy.Add("Brak imienia");
+                        if (post["NazwiskoInput"].ToString() == "")
+                            bledy.Add("Brak nazwiska");
+
+                        if (post["NazwaInput"].ToString() == "")
+                            bledy.Add("Brak nazwy użytkownika");
+                        else
+                        {
+                            if (post["NazwaInput"].ToString().Length < 4)
+                                bledy.Add("Nazwa ma mniej niż 4 znaki");
+                            else
+                            {
+                                string sql = "SELECT id FROM users WHERE nazwa=@Nazwa;";
+                                MySqlCommand zapytanie = new MySqlCommand(sql, conn);
+                                zapytanie.Parameters.Add(new MySqlParameter("@Idu", idu));
+                                zapytanie.Parameters.Add(new MySqlParameter("@Nazwa", post["NazwaInput"].ToString()));
+
+                                object wynik = zapytanie.ExecuteScalar();
+
+                                if (wynik != null)
+                                {
+                                    bledy.Add("Podana nazwa użytkownika jest już zajęta");
+                                }
+                            }
+                        }
+
+                        if (post["EmailInput"].ToString() == "")
+                            bledy.Add("Brak adresu E-mail");
+                        else
+                        {
+                            string emailReg = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+                            Regex reg = new Regex(emailReg);
+                            if (!reg.IsMatch(post["EmailInput"].ToString())) bledy.Add("Nieprawidłowy adres E-mail");
+
+                            else
+                            {
+                                string sql = "SELECT id FROM users WHERE email=@Email;";
+                                MySqlCommand zapytanie = new MySqlCommand(sql, conn);
+                                zapytanie.Parameters.Add(new MySqlParameter("@Idu", idu));
+                                zapytanie.Parameters.Add(new MySqlParameter("@Email", post["EmailInput"].ToString()));
+
+                                object wynik = zapytanie.ExecuteScalar();
+
+                                if (wynik != null)
+                                {
+                                    bledy.Add("Istnieje już użytkownik zarejestrowany na podany adres E-mail");
+                                }
+                            }
+                        }
+
+                        if (post["HasloInput"].ToString() != "")
+                        {
+                            string znakiSpecjalne = "` ~ ! @ # $ % ^ & * ( ) _ + \\- = \\[ \\] { } , . : ; ' \" | \\\\ / < > ?";
+
+                            Regex reg = new Regex("[^a-ząćęłńóśźżA-ZĄĆĘŁŃÓŚŹŻ0-9 " + znakiSpecjalne + "]");
+                            if (reg.IsMatch(post["HasloInput"].ToString()))
+                            {
+                                string bledyReg = "";
+                                foreach (Match match in reg.Matches(post["HasloInput"].ToString()))
+                                    bledyReg += " " + match.Value + "[" + match.Index + "]";
+
+                                bledy.Add("Hasło zawiera niedozwolony znak/i (znak [pozycja]):" + bledyReg);
+                            }
+                            if (post["HasloInput2"].ToString() == "")
+                                bledy.Add("Brak powtórzenia hasła");
+                            else if (post["HasloInput"].ToString() != post["HasloInput2"].ToString())
+                                bledy.Add("Hasła nie są identyczne");
+                        }
+                        //=============================
+
+                        if (bledy.Count > 0)
+                        {
+                            string bledyHTML = "<ul>";
+                            foreach (string val in bledy)
+                            {
+                                bledyHTML += "<li>" + val + "</li>";
+                            }
+                            bledyHTML += "</ul>";
+                            valid = "<div class=\"wiersz blad\">Formularz zawiera błędy:<br />" + bledyHTML + "</div>";
+                        }
+                        else // add
+                        {
+                            sql = "INSERT INTO users VALUES (@Id, @Nazwa, @Imie, @Nazwisko, @Email, @Haslo, @DataRejestracji, @Aktywne, @Typ);";
+                            zapytanie = new MySqlCommand(sql, conn);
+
+                            SHA512 alg = SHA512.Create();
+                            byte[] result = alg.ComputeHash(Encoding.UTF8.GetBytes(post["HasloInput"].ToString()));
+
+                            StringBuilder hash = new StringBuilder();
+                            foreach (byte b in result)
+                                hash.AppendFormat("{0:x2}", b);
+
+                            zapytanie.Parameters.Add(new MySqlParameter("@Haslo", hash.ToString()));
+
+                            zapytanie.Parameters.Add(new MySqlParameter("@Id", 0));
+                            zapytanie.Parameters.Add(new MySqlParameter("@Nazwa", post["NazwaInput"].ToString()));
+                            zapytanie.Parameters.Add(new MySqlParameter("@Imie", post["ImieInput"].ToString()));
+                            zapytanie.Parameters.Add(new MySqlParameter("@Nazwisko", post["NazwiskoInput"].ToString()));
+                            zapytanie.Parameters.Add(new MySqlParameter("@Email", post["EmailInput"].ToString()));
+
+                            TimeSpan elapsedTime = DateTime.Now - unix;
+
+                            zapytanie.Parameters.Add(new MySqlParameter("@DataRejestracji", elapsedTime.TotalSeconds.ToString()));
+                            zapytanie.Parameters.Add(new MySqlParameter("@Aktywne", "1"));
+                            zapytanie.Parameters.Add(new MySqlParameter("@Typ", "P"));
+
+                            int wynik = zapytanie.ExecuteNonQuery();
+
+                            if (wynik > 0)
+                            {
+                                conn.Close();
+                                Server.Transfer("../Redirect.aspx?a=useradd&link=" + Session["PrevPage"], true);
+                            }
+                        }
+
+                        valid = "<div id=\"Blad\">" + valid + "</div>";
+
+                        conn.Close();
+                    }
+                    catch (MySqlException ex)
+                    {
+                        Blad.InnerHtml = ex.ToString();
+                    }
+                }
+
+                txt += "<div class=\"wiersz\">";
+                txt += "<div class=\"pole\"><label for=\"ImieInput\">Imię: </label><input id=\"ImieInput\" name=\"ImieInput\" type=\"text\" value=\"" + ((post.ContainsKey("ImieInput")) ? post["ImieInput"] : "") + "\" runat=\"server\" /></div>";
+                txt += "<div class=\"pole\"><label for=\"NazwiskoInput\">Nazwisko: </label><input id=\"NazwiskoInput\" name=\"NazwiskoInput\" type=\"text\" value=\"" + ((post.ContainsKey("NazwiskoInput")) ? post["NazwiskoInput"] : "") + "\" runat=\"server\" /></div>";
+                txt += "</div>";
+                txt += "<div class=\"wiersz\">";
+                txt += "<div class=\"pole\"><label for=\"NazwaInput\">Nazwa użytkownika: </label><input id=\"NazwaInput\" name=\"NazwaInput\" type=\"text\" value=\"" + ((post.ContainsKey("NazwaInput")) ? post["NazwaInput"] : "") + "\" runat=\"server\" /></div>";
+                txt += "<div class=\"pole\"><label for=\"EmailInput\">Adres E-mail: </label><input id=\"EmailInput\" name=\"EmailInput\" type=\"text\" value=\"" + ((post.ContainsKey("EmailInput")) ? post["EmailInput"] : "") + "\" runat=\"server\" /></div>";
+                txt += "</div>";
+                txt += "<div class=\"wiersz\">";
+                txt += "<div class=\"pole\"><label for=\"HasloInput\">Hasło: </label><input id=\"HasloInput\" name=\"HasloInput\" type=\"password\" runat=\"server\" /></div>";
+                txt += "<div class=\"pole\"><label for=\"HasloInput2\">Powtórz hasło: </label><input id=\"HasloInput2\" name=\"HasloInput2\" type=\"password\" runat=\"server\" /></div>";
+                txt += "</div>";
+                txt += "<div><input type=\"hidden\" name=\"add\" /><input id=\"Submit1\" type=\"submit\" value=\"Utwórz\" /></div>";
+
+                txt = "<div>" + txt + "</div>";
+
+                admin.InnerHtml = "<div class=\"naglowek\">Nowy użytkownik</div>" + valid + txt;
+            }
             else
             {
                 Response.Redirect("./Default.aspx?action=uzytkownicy");
             }
 
         }
-        if (!Page.IsPostBack || rows > 0) // lista uzytkownikow
+        if (!Page.IsPostBack || rows > 0 || error) // lista uzytkownikow
         {
             string usersBrak = "<div id=\"Blad\"><div class=\"wiersz blad\">Brak kont użytkowników</div></div>";
             try
@@ -653,7 +827,7 @@ public partial class admin_Default : System.Web.UI.Page
                     txt += "<div class=\"komorka\">" + date0(uRej.Day) + "-" + date0(uRej.Month) + "-" + uRej.Year + "</div>";
                     txt += "<div class=\"komorka\">" + reader[8].ToString() + "</div>";
                     txt += "<div class=\"komorka\"><input type=\"submit\" name=\"edit_" + reader[0].ToString() + "\" value=\"Edytuj\" /></div>";
-                    txt += "<div class=\"komorka\"><input type=\"checkbox\" name=\"del_" + reader[0].ToString() + "\" /></div>";
+                    txt += "<div class=\"komorka\"><input type=\"checkbox\" name=\"del_" + reader[0].ToString() + "\" " + ((post.ContainsKey("del_" + reader[0].ToString())) ? "checked=\"true\"" : "") + " /></div>";
                     txt += "</div>";
                 }
                 if (usersBrak == ""){
@@ -678,7 +852,7 @@ public partial class admin_Default : System.Web.UI.Page
             {
                 Blad.InnerHtml = ex.ToString();
             }
-            admin.InnerHtml = "<div class=\"naglowek\">Użytkownicy</div>" + valid + usersBrak + txt;
+            admin.InnerHtml = "<div class=\"naglowek\">Użytkownicy</div><div class=\"dodaj\"><input type=\"submit\" name=\"add\" value=\"Utwórz\" /></div>" + valid + usersBrak + txt;
         }
     }
     protected void wizyty()
