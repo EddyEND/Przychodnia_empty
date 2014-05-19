@@ -214,6 +214,17 @@ table {
 }
 .InformacjePol p {
     margin-top: 6px;
+    color: #7A7A7A;
+}
+.InformacjePol a, .InformacjePol a:link, .InformacjePol a:visited {
+    color: #7A7A7A !important;
+}
+.InformacjePol a:hover {
+    color: #414141 !important;
+    text-decoration: underline !important;
+}
+.InformacjePol a:active {
+    color: #7A7A7A !important;
 }
 .InformacjePol > div{
     padding: 8px 10px;
