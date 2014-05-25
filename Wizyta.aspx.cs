@@ -16,6 +16,7 @@ public partial class Wizyta : System.Web.UI.Page
     private string sql;
     private MySqlCommand zapytanie;
 
+    private static string[] plDni = new string[7] { "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela" };
     private static string[] plMiesiace = new string[12] { "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień" };
 
     private int rokVal, miesiacVal, dzienVal, specVal, dataVal, zarejestrowanych;
@@ -146,6 +147,11 @@ public partial class Wizyta : System.Web.UI.Page
                 bledy.Add("Niewłaściwy miesiąc. [" + plMiesiace[DateTime.Today.Month-1] + " - " + plMiesiace[11] + "]");
             else if ((miesiacVal == DateTime.Today.Month && (dzienVal < DateTime.Today.Day || dzienVal > DateTime.DaysInMonth(rokVal, miesiacVal))) || (miesiacVal > DateTime.Today.Month && (dzienVal < 1 || dzienVal > DateTime.DaysInMonth(rokVal, miesiacVal))))
                 bledy.Add("Niewłaściwy dzień. " + plMiesiace[miesiacVal - 1] + " [" + ((miesiacVal == DateTime.Today.Month && (dzienVal < DateTime.Today.Day || dzienVal > DateTime.DaysInMonth(rokVal, miesiacVal))) ? DateTime.Today.Day : 1) + " - " + DateTime.DaysInMonth(rokVal, miesiacVal) + "]");
+            
+            DateTime czas = new DateTime(rokVal, miesiacVal, dzienVal, 0, 0, 0, 0, DateTimeKind.Utc);
+            double start = (Convert.ToInt32(czas.DayOfWeek) == 0) ? 7d : (double)czas.DayOfWeek;
+            if(start > 5)
+                bledy.Add("Przyjmujemy od poniedziałku do piątku<br />" + dzienVal + " " + plMiesiace[miesiacVal-1] + " " + rokVal + " to " + plDni[Convert.ToInt32(start)-1] + ", wybierz inny termin.");
         }
 
         if (!Int32.TryParse(Request.Form[SpecjalistaInput.UniqueID], out specVal))

@@ -369,6 +369,14 @@ a:link {
     padding-left: 2px;
     margin-bottom: 6px;
 }
+label.inline {
+    display: inline;
+    margin-right: 60px;
+}
+.radio {
+    margin-top: 6px;
+    margin-bottom: 10px;
+}
 select, input[type="text"], input[type="password"], textarea {
     width: 250px;
     height: 24px;

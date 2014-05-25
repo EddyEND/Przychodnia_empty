@@ -377,7 +377,7 @@ public partial class admin_Default : System.Web.UI.Page
     }
     protected void uzytkownicy()
     {
-        string txt = "", uname = "", valid = "";
+        string txt = "", uname = "", valid = "", typ = "P";
         bool x = true, error = false;
         int idu = 0, rows = 0;
         
@@ -464,6 +464,19 @@ public partial class admin_Default : System.Web.UI.Page
                         else if (post["HasloInput"].ToString() != post["HasloInput2"].ToString())
                             bledy.Add("Hasła nie są identyczne");
                     }
+                    if (!post.ContainsKey("TypInput") || post["TypInput"].ToString() == "")
+                        bledy.Add("Nie wybrano typu konta");
+                    else
+                    {
+                        if (post["TypInput"].ToString() != "A" && post["TypInput"].ToString() != "D" && post["TypInput"].ToString() != "P")
+                            bledy.Add("Niewłaściwy typ konta");
+                        else
+                        {
+                            typ = post["TypInput"].ToString();
+                            if (post["TypInput"].ToString() == "D" && post["SpecInput"].ToString() == "")
+                                bledy.Add("Brak specjalizacji doktora");
+                        }
+                    }
                     //=============================
 
                     if (bledy.Count > 0)
@@ -478,12 +491,12 @@ public partial class admin_Default : System.Web.UI.Page
                     }
                     else // update
                     {
-                        sql = "UPDATE users SET imie=@Imie, nazwisko=@Nazwisko, nazwa=@Nazwa, email=@Email WHERE id=@Idu;";
+                        sql = "UPDATE users SET imie=@Imie, nazwisko=@Nazwisko, nazwa=@Nazwa, email=@Email, typ=@Typ WHERE id=@Idu;";
                         zapytanie = new MySqlCommand(sql, conn);
 
                         if (post["HasloInput"].ToString() != "")
                         {
-                            sql = "UPDATE users SET imie=@Imie, nazwisko=@Nazwisko, nazwa=@Nazwa, email=@Email, haslo=@Haslo WHERE id=@Idu;";
+                            sql = "UPDATE users SET imie=@Imie, nazwisko=@Nazwisko, nazwa=@Nazwa, email=@Email, haslo=@Haslo, typ=@Typ WHERE id=@Idu;";
                             zapytanie = new MySqlCommand(sql, conn);
 
                             SHA512 alg = SHA512.Create();
@@ -501,11 +514,33 @@ public partial class admin_Default : System.Web.UI.Page
                         zapytanie.Parameters.Add(new MySqlParameter("@Nazwisko", post["NazwiskoInput"].ToString()));
                         zapytanie.Parameters.Add(new MySqlParameter("@Nazwa", post["NazwaInput"].ToString()));
                         zapytanie.Parameters.Add(new MySqlParameter("@Email", post["EmailInput"].ToString()));
+                        zapytanie.Parameters.Add(new MySqlParameter("@Typ", post["TypInput"].ToString()));
 
                         int wynik = zapytanie.ExecuteNonQuery();
 
                         if (wynik > 0)
                         {
+                            if (post["TypInput"].ToString() == "P" || post["TypInput"].ToString() == "A")
+                            {
+                                sql = "DELETE FROM specjalisci WHERE uid=@Idu;";
+                                zapytanie = new MySqlCommand(sql, conn);
+
+                                zapytanie.Parameters.Add(new MySqlParameter("@Idu", idu.ToString()));
+
+                                int wyn = zapytanie.ExecuteNonQuery();
+                            }
+                            else if (post["TypInput"].ToString() == "D")
+                            {
+                                sql = "INSERT INTO specjalisci VALUES (@Id, @Uid, @Specjalizacja);";
+                                zapytanie = new MySqlCommand(sql, conn);
+
+                                zapytanie.Parameters.Add(new MySqlParameter("@Id", 0));
+                                zapytanie.Parameters.Add(new MySqlParameter("@Uid", idu.ToString()));
+                                zapytanie.Parameters.Add(new MySqlParameter("@Specjalizacja", post["SpecInput"].ToString()));
+
+                                int wyn = zapytanie.ExecuteNonQuery();
+                            }
+
                             conn.Close();
                             Server.Transfer("../Redirect.aspx?a=useredit&link=" + Session["PrevPage"], true);
                         }
@@ -536,7 +571,7 @@ public partial class admin_Default : System.Web.UI.Page
                 {
                     conn.Open();
 
-                    sql = "SELECT * FROM users WHERE id=@Idu;";
+                    sql = "SELECT * FROM users u LEFT JOIN specjalisci s ON u.id=s.uid WHERE u.id=@Idu;";
                     zapytanie = new MySqlCommand(sql, conn);
                     zapytanie.Parameters.Add(new MySqlParameter("@Idu", idu.ToString()));
 
@@ -556,6 +591,28 @@ public partial class admin_Default : System.Web.UI.Page
                         txt += "<div class=\"pole\"><label for=\"HasloInput\">Hasło: </label><input id=\"HasloInput\" name=\"HasloInput\" type=\"password\" runat=\"server\" /></div>";
                         txt += "<div class=\"pole\"><label for=\"HasloInput2\">Powtórz hasło: </label><input id=\"HasloInput2\" name=\"HasloInput2\" type=\"password\" runat=\"server\" /></div>";
                         txt += "</div>";
+
+                        txt += "<div class=\"wiersz\">";
+                        txt += "<div class=\"pole\">Typ konta:</div>";
+                        txt += "</div>";
+
+                        txt += "<div class=\"wiersz\">";
+                        txt += "<div class=\"radio\">";
+
+                        string czek = reader[8].ToString();
+                        if (post.ContainsKey("TypInput") && post["TypInput"].ToString() != "")
+                            czek = post["TypInput"].ToString();
+
+                        txt += "<label class=\"inline\" for=\"PacjentInput\"><input id=\"PacjentInput\" name=\"TypInput\" type=\"radio\" value=\"P\" runat=\"server\" " + ((czek == "P") ? "checked=\"checked\"" : "") + " /> Pacjent</label>";
+                        txt += "<label class=\"inline\" for=\"DoktorInput\"><input id=\"DoktorInput\" name=\"TypInput\" type=\"radio\" value=\"D\" runat=\"server\" " + ((czek == "D") ? "checked=\"checked\"" : "") + " /> Doktor</label>";
+                        txt += "<label class=\"inline\" for=\"AdminInput\"><input id=\"AdminInput\" name=\"TypInput\" type=\"radio\" value=\"A\" runat=\"server\" " + ((czek == "A") ? "checked=\"checked\"" : "") + " /> Admin</label>";
+                        txt += "</div>";
+                        txt += "</div>";
+
+                        txt += "<div class=\"wiersz\">";
+                        txt += "<div class=\"pole\"><label for=\"SpecInput\">Specjalizacja (Doktor): </label><input id=\"SpecInput\" name=\"SpecInput\" type=\"text\" value=\"" + ((post.ContainsKey("SpecInput")) ? post["SpecInput"] : reader[11].ToString()) + "\" runat=\"server\" /></div>";
+                        txt += "</div>";
+
                         txt += "<div><input name=\"idu\" type=\"hidden\" value=\"" + idu + "\" /><input id=\"Submit1\" type=\"submit\" value=\"Edytuj\" /></div>";
 
                         uname = reader[1].ToString();
@@ -607,6 +664,13 @@ public partial class admin_Default : System.Web.UI.Page
                     try
                     {
                         conn.Open();
+
+                        sql = "DELETE FROM specjalisci WHERE uid in (" + lista + ");";
+                        zapytanie = new MySqlCommand(sql, conn);
+
+                        rows = zapytanie.ExecuteNonQuery();
+
+                        // ========================================
 
                         sql = "DELETE FROM users WHERE id in (" + lista + ");";
                         zapytanie = new MySqlCommand(sql, conn);
@@ -689,8 +753,9 @@ public partial class admin_Default : System.Web.UI.Page
                                 }
                             }
                         }
-
-                        if (post["HasloInput"].ToString() != "")
+                        if (post["HasloInput"].ToString() == "")
+                            bledy.Add("Brak hasła");
+                        else if (post["HasloInput"].ToString() != "")
                         {
                             string znakiSpecjalne = "` ~ ! @ # $ % ^ & * ( ) _ + \\- = \\[ \\] { } , . : ; ' \" | \\\\ / < > ?";
 
@@ -707,6 +772,19 @@ public partial class admin_Default : System.Web.UI.Page
                                 bledy.Add("Brak powtórzenia hasła");
                             else if (post["HasloInput"].ToString() != post["HasloInput2"].ToString())
                                 bledy.Add("Hasła nie są identyczne");
+                        }
+                        if (!post.ContainsKey("TypInput") || post["TypInput"].ToString() == "")
+                            bledy.Add("Nie wybrano typu konta");
+                        else
+                        {
+                            if (post["TypInput"].ToString() != "A" && post["TypInput"].ToString() != "D" && post["TypInput"].ToString() != "P")
+                                bledy.Add("Niewłaściwy typ konta");
+                            else
+                            {
+                                typ = post["TypInput"].ToString();
+                                if (post["TypInput"].ToString() == "D" && post["SpecInput"].ToString() == "")
+                                    bledy.Add("Brak specjalizacji doktora");
+                            }
                         }
                         //=============================
 
@@ -744,12 +822,23 @@ public partial class admin_Default : System.Web.UI.Page
 
                             zapytanie.Parameters.Add(new MySqlParameter("@DataRejestracji", elapsedTime.TotalSeconds.ToString()));
                             zapytanie.Parameters.Add(new MySqlParameter("@Aktywne", "1"));
-                            zapytanie.Parameters.Add(new MySqlParameter("@Typ", "P"));
+                            zapytanie.Parameters.Add(new MySqlParameter("@Typ", typ));
 
                             int wynik = zapytanie.ExecuteNonQuery();
 
                             if (wynik > 0)
                             {
+                                // jesli doktor dodajemy specjalizacje
+                                if (typ == "D" && wynik > 0)
+                                {
+                                    sql = "INSERT INTO specjalisci VALUES (@Id, LAST_INSERT_ID(), @Specjalizacja);";
+                                    zapytanie = new MySqlCommand(sql, conn);
+
+                                    zapytanie.Parameters.Add(new MySqlParameter("@Id", 0));
+                                    zapytanie.Parameters.Add(new MySqlParameter("@Specjalizacja", post["SpecInput"].ToString()));
+
+                                    int wyn = zapytanie.ExecuteNonQuery();
+                                }
                                 conn.Close();
                                 Server.Transfer("../Redirect.aspx?a=useradd&link=" + Session["PrevPage"], true);
                             }
@@ -777,6 +866,23 @@ public partial class admin_Default : System.Web.UI.Page
                 txt += "<div class=\"pole\"><label for=\"HasloInput\">Hasło: </label><input id=\"HasloInput\" name=\"HasloInput\" type=\"password\" runat=\"server\" /></div>";
                 txt += "<div class=\"pole\"><label for=\"HasloInput2\">Powtórz hasło: </label><input id=\"HasloInput2\" name=\"HasloInput2\" type=\"password\" runat=\"server\" /></div>";
                 txt += "</div>";
+
+                txt += "<div class=\"wiersz\">";
+                txt += "<div class=\"pole\">Typ konta:</div>";
+                txt += "</div>";
+
+                txt += "<div class=\"wiersz\">";
+                txt += "<div class=\"radio\">";
+                txt += "<label class=\"inline\" for=\"PacjentInput\"><input id=\"PacjentInput\" name=\"TypInput\" type=\"radio\" value=\"P\" runat=\"server\" " + ((post.ContainsKey("TypInput") && post["TypInput"].ToString() == "P") ? "checked=\"checked\"" : "") + " /> Pacjent</label>";
+                txt += "<label class=\"inline\" for=\"DoktorInput\"><input id=\"DoktorInput\" name=\"TypInput\" type=\"radio\" value=\"D\" runat=\"server\" " + ((post.ContainsKey("TypInput") && post["TypInput"].ToString() == "D") ? "checked=\"checked\"" : "") + " /> Doktor</label>";
+                txt += "<label class=\"inline\" for=\"AdminInput\"><input id=\"AdminInput\" name=\"TypInput\" type=\"radio\" value=\"A\" runat=\"server\" " + ((post.ContainsKey("TypInput") && post["TypInput"].ToString() == "A") ? "checked=\"checked\"" : "") + " /> Admin</label>";
+                txt += "</div>";
+                txt += "</div>";
+
+                txt += "<div class=\"wiersz\">";
+                txt += "<div class=\"pole\"><label for=\"SpecInput\">Specjalizacja (Doktor): </label><input id=\"SpecInput\" name=\"SpecInput\" type=\"text\" value=\"" + ((post.ContainsKey("SpecInput")) ? post["SpecInput"] : "") + "\" runat=\"server\" /></div>";
+                txt += "</div>";
+
                 txt += "<div><input type=\"hidden\" name=\"add\" /><input id=\"Submit1\" type=\"submit\" value=\"Utwórz\" /></div>";
 
                 txt = "<div>" + txt + "</div>";
